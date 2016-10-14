@@ -8,7 +8,7 @@
 (defn halp [command]
 	(if (= command "")
 		(print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
-		(if (= command (get commands :name))
+		(if (= command (get commands :name)) ; This line needs to be changed ~ Carlos
 			(print (get commands :name) (get commands :description))
 			(print "No such command found!")
 		)
