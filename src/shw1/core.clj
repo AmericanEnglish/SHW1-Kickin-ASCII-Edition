@@ -1,7 +1,10 @@
 (ns shw1.core
   (:gen-class)
   (:require [resources.user-commands :refer :all])
+  (:gen-class)
+  (:require [resources.rooms :refer :all])
 )
+
 
 (defn handler 
   "Handles the users commands, dispatching them to and fro"
