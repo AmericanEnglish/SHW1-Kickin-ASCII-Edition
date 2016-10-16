@@ -1,11 +1,11 @@
 (ns resources.user-commands)
-(declare halp Into look quit)
+(declare commands)
 
 (defn search_command_name
   [command commands]
   (let [res (filter #(= command (:name %)) commands)]
     (if (not (empty? res))
-      res
+      (nth res 0)
     )
   )
 )
