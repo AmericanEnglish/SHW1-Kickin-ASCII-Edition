@@ -28,10 +28,11 @@
 
 (defn search_command_name
   [command commands]
-  (if-let [res (filter #(= command (:name %)) commands)]
+  (let [res (filter #(= command (:name %)) commands)]
+    (if (not (empty? res))
       res
-      nil
     )
+  )
 )
 
 
