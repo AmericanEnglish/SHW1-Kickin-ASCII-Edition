@@ -36,7 +36,7 @@
 
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Gets the program going! Without where would we be?"
   [& args]
   (println "Hello! ARE YOU READY?")
   (gather_input)
