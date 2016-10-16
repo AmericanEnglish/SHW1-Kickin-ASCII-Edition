@@ -43,6 +43,7 @@
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
+    )
   )
 )
 
