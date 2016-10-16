@@ -26,16 +26,24 @@
 )
 
 
+(defn search_command_name
+  [command commands]
+  (if-let [res (filter #(= command (:name %)) commands)]
+      res
+      nil
+    )
+)
+
+
 (defn halp 
     "Displays help information about a specific command or just displays all commands"
     [command]
-	(if (= command "")
-		(print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
-		(if-let [res (filter #(= command (:name %)) commands)]
-			(println (:description res))
-			(println "No such command found!")
-		)
-	)
+  (if (= command "")
+    (print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
+    (if-let [res (search_command_name command commands)]
+      (println (:description res))
+      (println "No such command found!") 
+  )
 )
 
 
