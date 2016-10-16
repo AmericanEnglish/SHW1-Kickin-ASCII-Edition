@@ -41,20 +41,21 @@
 
 (defn Into
     "Moves the player into the room"
-    []
+    [args]
     (println "Empty \"into\" command")
 )
 
 
 (defn look 
     "Allows player to look around a room"
-    []
+    [args]
     (println "An empty \"look\" command" )
 )
 
+
 (defn quit
   "Allows the user to end the game."
-  []
+  [args]
   ;Carlos will put the ask for comfirmation code
   (println "Goodbye!")
   (System/exit 0)
