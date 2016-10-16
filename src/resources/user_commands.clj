@@ -14,7 +14,7 @@
     "Displays help information about a specific command or just displays all commands"
     [command]
   (if (= command "")
-    (print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
+    (println "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
