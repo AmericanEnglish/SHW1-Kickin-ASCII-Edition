@@ -1,9 +1,17 @@
+(ns resources.rooms)
+
 (def garage
-	(hash-map :id 1 :name "Garage" :exits (vector 2) :description "Just you typical garage.")
+	(hash-map
+		:id 1
+		:name "Garage"
+		:exits (vector 2)
+		:description "Just you typical garage."
+	)
 )
 
 (def foyer
-	(hash-map :id 2 :name "Foyer" :exits (vector 1 3) :description "A Foyer, also known as a entry room for those who don't know.")
+	(hash-map 
+		:id 2 :name "Foyer" :exits (vector 1 3) :description "A Foyer, also known as a entry room for those who don't know.")
 )
 
 (def parlour
