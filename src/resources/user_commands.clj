@@ -1,3 +1,4 @@
+(ns resources.user-commands)
 (declare halp Into look)
 
 (def commands
