@@ -3,9 +3,9 @@
 
 (defn handler 
   "Handles the users commands, dispatching them to and fro"
-  [args]
+  [input]
   ; This is obviously filler code for now
-  (println args)
+  (clojure.string/split input #" ")
 )
 
 
@@ -17,9 +17,7 @@
   (loop [input (read-line)]
     (if (not (clojure.string/blank? input))
       (do
-        (handler 
-          (clojure.string/split input #" ")
-        )
+        (handler input)
         (print "=CMD=> ")
         (flush)
         (recur (read-line))
