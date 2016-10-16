@@ -32,8 +32,8 @@
 	(if (= command "")
 		(print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
 		(if-let [res (filter #(= command (:name %)) commands)]
-			(print res)
-			(print "No such command found!")
+			(println (:description res))
+			(println "No such command found!")
 		)
 	)
 )
@@ -56,7 +56,7 @@
   "Allows the user to end the game."
   []
   ;Carlos will put the ask for comfirmation code
-  (print "Goodbye!")
+  (println "Goodbye!")
   (System/exit 0)
 )
 ;We can place other user command functions in this file to stay organized.
