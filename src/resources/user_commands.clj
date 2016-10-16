@@ -1,5 +1,5 @@
 (ns resources.user-commands)
-(declare halp Into look)
+(declare halp Into look quit)
 
 (def commands
 	(list (hash-map 
@@ -17,6 +17,11 @@
               :description "User types \"halp\" with no argument to display all user commands, or with an argument to show more information on command."
               :fn halp
           )
+          (hash-map
+              :name "quit"
+              :description "User types \"quit\" with no argument to end the game."
+              :fn quit
+          )
 	)
 )
 
@@ -26,26 +31,34 @@
     [command]
 	(if (= command "")
 		(print "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
-		(if (= command (get commands :name)) ; This line needs to be changed ~ Carlos
-			(print (get commands :name) (get commands :description))
-			(print "No such command found!")
+		(if-let [res (filter #(= command (:name %)) commands)]
+			(println (:description res))
+			(println "No such command found!")
 		)
 	)
-    ;Not sure how to print the info on specified command but this is a start. 
 )
 
 
 (defn Into
     "Moves the player into the room"
-    []
+    [args]
     (println "Empty \"into\" command")
 )
 
 
 (defn look 
     "Allows player to look around a room"
-    []
+    [args]
     (println "An empty \"look\" command" )
+)
+
+
+(defn quit
+  "Allows the user to end the game."
+  [args]
+  ;Carlos will put the ask for comfirmation code
+  (println "Goodbye!")
+  (System/exit 0)
 )
 ;We can place other user command functions in this file to stay organized.
 
