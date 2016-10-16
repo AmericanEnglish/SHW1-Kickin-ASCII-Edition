@@ -1,16 +1,22 @@
 (ns shw1.core
   (:gen-class)
   (:require [resources.user-commands :refer :all])
-  (:gen-class)
   (:require [resources.rooms :refer :all])
 )
 
 
 (defn handler 
   "Handles the users commands, dispatching them to and fro"
-  [input]
+  [input commands]
   ; This is obviously filler code for now
-  (clojure.string/split input #" ")
+  (let [parsed (clojure.string/split input #" ")]
+    (let [result (search_command_name (nth parsed 0) commands)]
+      (if (not (empty? result))
+        ((:fn result) (clojure.string/join " " (drop 1 parsed)))
+        (println "Command not found!")
+      )
+    )
+  )  
 )
 
 
@@ -22,8 +28,8 @@
   (loop [input (read-line)]
     (if (not (clojure.string/blank? input))
       (do
-        (handler input)
-        (print "=CMD=> ")
+        (handler input commands)
+        (print "\n=CMD=> ")
         (flush)
         (recur (read-line))
       )
