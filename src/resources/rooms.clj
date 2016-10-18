@@ -6,7 +6,7 @@
 		:id 1
 		:name "Garage"
 		:exits (vector 2)
-		:description "Just you typical garage."
+		:description "You are in the Garage, parked inside is a \n candy-apple red 1972 Corvette Sting-ray."
 	)
 )
 
@@ -15,7 +15,7 @@
 		:id 2 
 		:name "Foyer" 
 		:exits (vector 1 3) 
-		:description "A Foyer, also known as a entry room for those who don't know."
+		:description "A Foyer, also known as a entry room for those who are not posh enough.\n It is a decent size allowing room for a bench, pile of shoes, and walking room."
 	)
 )
 
@@ -24,7 +24,7 @@
 		:id 3 
 		:name "Parlour" 
 		:exits (vector 2 4 6 7) 
-		:description "A Parlour, could sometimes be refered to as a living room."
+		:description "A Parlour, also refered to as a living room.\n It is full of extravagant art."
 	)
 )
 
@@ -33,7 +33,7 @@
 		:id 4 
 		:name "Kitchen" 
 		:exits (vector 3 5) 
-		:description "This is a kitchen with some dirty dishes that need to be washed."
+		:description "This is a kitchen with some dirty dishes that need to be washed.\n It smells of fresh baked goods!\n... but it is probably a spray... "
 	)
 )
 
@@ -42,7 +42,7 @@
 		:id 5 
 		:name "Pantry" 
 		:exits (vector 4) 
-		:description "A Pantry with some expensive herbs and spices."
+		:description "A Pantry with some expensive herbs and spices.\n This pantry has enough room to keep all of your cooking supplies and a years worth of canned goods.\n Perfect for the Dooms-Day prepper in all of us."
 	)
 )
 
@@ -51,7 +51,7 @@
 		:id 6 
 		:name "Bathroom" 
 		:exits (vector 3 7) 
-		:description "A Bathroom, also known as a wash room to some."
+		:description "A Bathroom, "
 	)
 )
 
@@ -60,7 +60,7 @@
 		:id 7 
 		:name "Bedroom" 
 		:exits (vector 3 6 8) 
-		:description "Looks to be the master bedroom of the house."
+		:description "Looks to be the master bedroom of the house. It fits a king size bed and full bedroom set.\n The decor is very elegant with a european touch.\n One lone pair of handcuffs remains on the dresser...\n the preveious owner must have been a police officer."
 	)
 )
 
@@ -68,7 +68,8 @@
 	(hash-map 
 		:id 8 
 		:name "Office" 
-		:exits (vector 7) :description "Looks to be an Office."
+		:exits (vector 7) 
+		:description "A small office with a veiw reminiscent of the Windows XP wallpaper."
 	)
 )
 
