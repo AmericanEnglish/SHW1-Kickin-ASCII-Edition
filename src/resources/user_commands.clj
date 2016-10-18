@@ -26,7 +26,7 @@
 )
 
 (defn grab_room [player]
-    (filter #(= (:id %) (:location player) ) rooms)
+    (nth (filter #(= (:id %) (:location player) ) rooms) 0)
 )
 
 (defn find_exits_hash
@@ -56,11 +56,12 @@
     (let [result (filter #(= (:name %) args) (grab_exits player))]
       (if (not (empty? result))
         (do 
-          (println (conj "Moved into " args " !"))
+          (println (str "Moved into " args " !"))
+          (println (str "\n" (:description (nth result 0))))
           (update player :location (:id (nth result 0)))
         )
         (do
-          (println (conj "There is no exit: " args " !"))
+          (println (str "There is no exit: " args " !"))
           player
         )
       )
@@ -70,7 +71,9 @@
 (defn look 
     "Allows player to look around a room"
     [args player]
-    (println "An empty \"look\" command" )
+    (println (str "\nRoom name: "(:name (grab_room player))
+      "\nDescription: " (:description (grab_room player))
+      "\nExits: " (:exits (grab_room player))))
 )
 
 (defn quit
@@ -85,7 +88,7 @@
 (def commands
   (list (hash-map 
               :name "into" 
-              :description "User types \"into room id\" to move into the room only if the new room is attached to current room."
+              :description "User types \"into room\" to move into the room only if the new room is attached to current room."
               :fn Into  
           )
           (hash-map 
@@ -107,5 +110,5 @@
 )
 
 (def plyr 
-    (hash-map :location nil)
+    (hash-map :location 1)
 )
