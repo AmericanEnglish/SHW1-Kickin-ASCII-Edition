@@ -1,4 +1,6 @@
-(ns resources.user-commands)
+(ns resources.user-commands
+  (:require [resources.rooms :refer :all])
+)
 (declare commands)
 
 (defn search_command_name
