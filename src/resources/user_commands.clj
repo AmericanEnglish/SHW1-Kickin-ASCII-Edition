@@ -58,7 +58,7 @@
         (do 
           (println (str "Moved into " args " !"))
           (println (str "\n" (:description (nth result 0))))
-          (update player :location (:id (nth result 0)))
+          (assoc player :location (:id (nth result 0)))
         )
         (do
           (println (str "There is no exit: " args " !"))
@@ -71,10 +71,27 @@
 (defn look 
     "Allows player to look around a room"
     [args player]
-    (println (str "\nRoom name: "(:name (grab_room player))
-      "\nDescription: " (:description (grab_room player))
-      "\nExits: " (:exits (grab_room player))))
+    (let [cur_room (grab_room player)]
+      (do
+        (println (:name cur_room))
+        (println (:description cur_room))
+      )
+    )
+    (println "Exits:")
+    (loop [res (map :name (grab_exits player))]
+      (if (not (empty? res))
+        (do
+          (println (nth res 0))
+          (recur (drop 1 res))
+        )
+      )
+    )
+  player
 )
+      
+
+
+
 
 (defn quit
   "Allows the user to end the game."
