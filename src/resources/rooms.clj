@@ -51,7 +51,7 @@
 		:id 6 
 		:name "Bathroom" 
 		:exits (vector 3 7) 
-		:description "A Bathroom, "
+		:description "A Bathroom that is ready for anything."
 	)
 )
 
@@ -60,7 +60,7 @@
 		:id 7 
 		:name "Bedroom" 
 		:exits (vector 3 6 8) 
-		:description "Looks to be the master bedroom of the house. It fits a king size bed and full bedroom set.\n The decor is very elegant with a european touch.\n One lone pair of handcuffs remains on the dresser...\n the preveious owner must have been a police officer."
+		:description "Looks to be the master bedroom of the house.\n It fits a king size bed and full bedroom set.\n The decor is very elegant with a european touch.\n One lone pair of handcuffs remains on the dresser...\n the preveious owner must have been a police officer."
 	)
 )
 
@@ -69,7 +69,7 @@
 		:id 8 
 		:name "Office" 
 		:exits (vector 7) 
-		:description "A small office with a veiw reminiscent of the Windows XP wallpaper."
+		:description "A small office with a veiw reminiscent\n of the Windows XP wallpaper."
 	)
 )
 
