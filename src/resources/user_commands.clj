@@ -55,8 +55,14 @@
     [args player]
     (let [result (filter #(= (:name %) args) (grab_exits player))]
       (if (not (empty? result))
-        (update player :location (:id result))
-        player
+        (do 
+          (println (conj "Moved into " args " !"))
+          (update player :location (:id (nth result 0)))
+        )
+        (do
+          (println (conj "There is no exit: " args " !"))
+          player
+        )
       )
     )
 )
