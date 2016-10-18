@@ -25,10 +25,21 @@
   player
 )
 
+(defn grab_room [player]
+    (filter #(= (:id %) (:location player) ) rooms)
+)
+
+(defn exit_loc [room]
+  (filter #(= :id %)
+  (:exit room))
+)
+
 (defn Into
     "Moves the player into the room"
     [args player]
-    (println "Empty \"into\" command")
+    (if-let [result (filter #(= (:name (exit_loc (grab_room player))) args))]
+    (update player :location ))
+
 )
 
 (defn look 
