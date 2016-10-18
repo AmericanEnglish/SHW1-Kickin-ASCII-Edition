@@ -67,3 +67,7 @@
           )
   )
 )
+
+(def plyr 
+    (hash-map :location nil)
+)
