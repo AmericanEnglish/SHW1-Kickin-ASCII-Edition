@@ -12,7 +12,7 @@
 
 (defn halp 
     "Displays help information about a specific command or just displays all commands"
-    [command]
+    [command player]
   (if (= command "")
     (println "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
@@ -20,6 +20,7 @@
       (println "No such command found!") 
     )
   )
+  player
 )
 
 (defn Into
