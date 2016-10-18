@@ -29,34 +29,6 @@
     (filter #(= (:id %) (:location player) ) rooms)
 )
 
-(defn exit_loc [room]
-  (filter #(= :id %)
-  (:exit room))
-)
-
-(defn Into
-    "Moves the player into the room"
-    [args player]
-    (if-let [result (filter #(= (:name (exit_loc (grab_room player))) args))]
-    (update player :location ))
-
-)
-
-(defn look 
-    "Allows player to look around a room"
-    [args player]
-    (println "An empty \"look\" command" )
-)
-
-(defn quit
-  "Allows the user to end the game."
-  [args player]
-  ;Carlos will put the ask for comfirmation code
-  (println "Goodbye!")
-  (System/exit 0)
-)
-;We can place other user command functions in this file to stay organized.
-
 (defn find_exits_hash
   [room_ints]
   (loop [cur_rooms room_ints room_maps []]
@@ -77,6 +49,31 @@
     (:exits (grab_room player))
   )
 )
+
+(defn Into
+    "Moves the player into the room"
+    [args player]
+    (let [result (filter #(= (:name %) args) (grab_exits player))])
+    (if (not (empty? result))
+      (update player :location (:id result))
+    )
+    player
+)
+
+(defn look 
+    "Allows player to look around a room"
+    [args player]
+    (println "An empty \"look\" command" )
+)
+
+(defn quit
+  "Allows the user to end the game."
+  [args player]
+  ;Carlos will put the ask for comfirmation code
+  (println "Goodbye!")
+  (System/exit 0)
+)
+;We can place other user command functions in this file to stay organized.
 
 (def commands
   (list (hash-map 
