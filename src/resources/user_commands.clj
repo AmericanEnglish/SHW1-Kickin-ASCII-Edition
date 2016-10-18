@@ -53,15 +53,22 @@
 (defn Into
     "Moves the player into the room"
     [args player]
-    (let [result (filter #(= (:name %) args) (grab_exits player))]
+    (let [result 
+          (filter 
+            #(
+              = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
+             ) 
+             (grab_exits player)
+          )
+        ]
       (if (not (empty? result))
         (do 
-          (println (str "Moved into " args " !"))
+          (println (str "Moved into the " args " !"))
           (println (str "\n" (:description (nth result 0))))
           (assoc player :location (:id (nth result 0)))
         )
         (do
-          (println (str "There is no exit: " args " !"))
+          (println (str "There is no exit: " args "!"))
           player
         )
       )
@@ -97,8 +104,17 @@
   "Allows the user to end the game."
   [args player]
   ;Carlos will put the ask for comfirmation code
-  (println "Goodbye!")
-  (System/exit 0)
+  (print "Are you sure you want to leave? (y/N): ")
+  (flush)
+  (let [answer (read-line)]
+    (if (= (clojure.string/lower-case answer) "y")
+      (do
+        (println "Goodbye!")
+        (System/exit 0)
+      )
+      player
+    )
+  )
 )
 ;We can place other user command functions in this file to stay organized.
 
