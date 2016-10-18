@@ -53,11 +53,12 @@
 (defn Into
     "Moves the player into the room"
     [args player]
-    (let [result (filter #(= (:name %) args) (grab_exits player))])
-    (if (not (empty? result))
-      (update player :location (:id result))
+    (let [result (filter #(= (:name %) args) (grab_exits player))]
+      (if (not (empty? result))
+        (update player :location (:id result))
+        player
+      )
     )
-    player
 )
 
 (defn look 
