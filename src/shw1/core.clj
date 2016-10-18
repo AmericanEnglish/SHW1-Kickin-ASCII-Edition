@@ -1,7 +1,6 @@
 (ns shw1.core
   (:gen-class)
   (:require [resources.user-commands :refer :all])
-  (:require [resources.rooms :refer :all])
 )
 
 (defn sanitize_input 

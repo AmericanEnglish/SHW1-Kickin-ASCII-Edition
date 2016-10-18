@@ -1,4 +1,5 @@
 (ns resources.rooms)
+(declare rooms)
 
 (def garage
 	(hash-map
