@@ -19,7 +19,10 @@
     (let [result (search_command_name (nth parsed 0) commands)]
       (if (not (empty? result))
         ((:fn result) (clojure.string/join " " (drop 1 parsed)) player)
-        (println "Command not found!")
+        (do
+          (println "Command not found!")
+          player
+        )
       )
     )
   )  
