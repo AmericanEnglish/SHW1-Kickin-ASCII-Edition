@@ -61,6 +61,16 @@ There are none! Isn't that wonderful?!
 
 ### House Generation
 
+#### Connection Rules
+| Room     | Subclass |              Rule                  |
+|:--------:|:--------:|:----------------------------------:|
+| Bathroom | Master   | Always connects to master bedroom  |
+| Bedroom  | Master   | Always connects to master bathroom |
+| Foyer    | Front    | Always connects to garage          |
+| Garage   | All      | Always connects to front foyer     |
+| Kitchen  | Full     | Always connects to pantry          |
+| Pantry   | All      | Only connects to kitchen           |
+
 ## License
 
 Copyright © 2016 
