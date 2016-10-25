@@ -31,41 +31,39 @@ There are none! Isn't that wonderful?!
 ## Rules
 ### Room Generation
 
-|   Room   |  Exits | Subclass |
-|:--------:|:---------:|:--------:|
-| Bathroom |     2     | Master | 
-|  . . .   |     1     | Full   |
-|  . . .   |     1     | Half   |
-| Bedroom  |
-|  . . .   |
-|  . . .   |
-| Foyer    | 
-|  . . .   |
-|  . . .   |
-| Garage   |
-|  . . .   |
-|  . . .   |
-| Kitchen  |
-|  . . .   |
-|  . . .   |
-| Office   |
-|  . . .   |
-|  . . .   |
-| Pantry   |
-|  . . .   |
-|  . . .   |
-| Parlor   |
-|  . . .   |
-|  . . .   |
+|   Room   |   Exits   |  Subclass   | 
+|:--------:|:---------:|:-----------:|
+| Bathroom |     2     | Master      | 
+|  . . .   |     1     | Full        |
+|  . . .   |     1     | Half        |
+| Bedroom  |     2     | Master      |
+|  . . .   |     1     | Guest       |
+|  . . .   |     1     | Child       |
+| Foyer    |     2     | Front       |
+|  . . .   |     2     | Back        |
+|  . . .   |     0     | Nill        |
+| Garage   |     1     | 3 Car       |
+|  . . .   |     1     | 2 Car       |
+|  . . .   |     1     | 1 Car       |
+| Kitchen  |     4     | Full        |
+|  . . .   |     2     | Half        |
+|  . . .   |     0     | Nill        |
+| Office   |     2     | Large       | 
+|  . . .   |     1     | Medium      |
+|  . . .   |     1     | Small       |
+| Pantry   |     1     | Large       |
+|  . . .   |     0     | Nill        |
+|  . . .   |     1     | Small       |
+| Parlor   |     4     | Dining      |
+|  . . .   |     4     | Family      |
+|  . . .   |     4     | Living      |
 
 
-
-### That You Think
-### Might be Useful
+### House Generation
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
