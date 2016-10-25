@@ -61,6 +61,9 @@ There are none! Isn't that wonderful?!
 
 ### House Generation
 
+### Process of Generation
+Coming soon
+
 #### Connection Rules
 | Room     | Subclass |              Rule                  |
 |:--------:|:--------:|:-----------------------------------|
@@ -69,7 +72,14 @@ There are none! Isn't that wonderful?!
 | Foyer    | Front    | Always connects to garage          |
 | Garage   | All      | Always connects to front foyer     |
 | Kitchen  | Full     | Always connects to pantry          |
-| Pantry   | All      | Only connects to kitchen           |
+| Pantry   | All      | Only   connects to  full kitchen   |
+
+### Misc Rules
+* Start at front foyer
+* No more than 50 total rooms
+* No less than 8 total rooms
+* Enter every room to win
+* No two rooms of the same superclass can connect to each other
 
 ## License
 
