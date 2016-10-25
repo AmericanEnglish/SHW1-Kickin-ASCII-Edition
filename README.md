@@ -4,27 +4,39 @@ FIXME: description
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Just clone the repo and start playing!
 
 ## Usage
 
-FIXME: explanation
-
+Usage pending
+```
     $ java -jar shw1-0.1.0-standalone.jar [args]
+```
 
 ## Options
 
-FIXME: listing of options this app accepts.
+There are none! Isn't that wonderful?!
 
-## Examples
+## Progress
 
-...
+|     Goal     | Progress |   Date   |
+|:------------:|:--------:|:--------:|
+| Basic REPL   | Done     |   N / A  |
+| Halp CMD     | Done     |   N / A  |
+| Enter CMD    | Done     |   N / A  |
+| Quit CMD     | Done     |   N / A  |
+| Look CMD     | Done     |   N / A  |
 
-### Bugs
 
-...
+## Rules
+### Room Generation
 
-### Any Other Sections
+| Room | Max Exits | Subclass |
+|:----:|:---------:|:--------:|
+ 
+
+
+
 ### That You Think
 ### Might be Useful
 
