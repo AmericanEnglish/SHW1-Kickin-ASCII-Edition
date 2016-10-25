@@ -16,7 +16,7 @@
     "Displays help information about a specific command or just displays all commands"
     [command player]
   (if (= command "")
-    (println "User commands: into, look, halp. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, look, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -50,7 +50,7 @@
   )
 )
 
-(defn Into
+(defn enter
     "Moves the player into the room"
     [args player]
     (let [result 
@@ -63,7 +63,7 @@
         ]
       (if (not (empty? result))
         (do 
-          (println (str "Moved into the " args " !"))
+          (println (str "Entered " args " !"))
           (println (str "\n" (:description (nth result 0))))
           (assoc player :location (:id (nth result 0)))
         )
@@ -120,9 +120,9 @@
 
 (def commands
   (list (hash-map 
-              :name "into" 
-              :description "User types \"into room\" to move into the room only if the new room is attached to current room."
-              :fn Into  
+              :name "enter" 
+              :description "User types \"enter room\" to move into the room only if the new room is attached to current room."
+              :fn enter  
           )
           (hash-map 
               :name "look" 
