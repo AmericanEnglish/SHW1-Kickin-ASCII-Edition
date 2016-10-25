@@ -31,9 +31,32 @@ There are none! Isn't that wonderful?!
 ## Rules
 ### Room Generation
 
-| Room | Max Exits | Subclass |
-|:----:|:---------:|:--------:|
- 
+|   Room   |  Exits | Subclass |
+|:--------:|:---------:|:--------:|
+| Bathroom |     2     | Master | 
+|  . . .   |     1     | Full   |
+|  . . .   |     1     | Half   |
+| Bedroom  |
+|  . . .   |
+|  . . .   |
+| Foyer    | 
+|  . . .   |
+|  . . .   |
+| Garage   |
+|  . . .   |
+|  . . .   |
+| Kitchen  |
+|  . . .   |
+|  . . .   |
+| Office   |
+|  . . .   |
+|  . . .   |
+| Pantry   |
+|  . . .   |
+|  . . .   |
+| Parlor   |
+|  . . .   |
+|  . . .   |
 
 
 
