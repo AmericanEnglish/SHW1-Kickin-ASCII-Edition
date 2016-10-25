@@ -63,7 +63,7 @@ There are none! Isn't that wonderful?!
 
 #### Connection Rules
 | Room     | Subclass |              Rule                  |
-|:--------:|:--------:|:----------------------------------:|
+|:--------:|:--------:|:-----------------------------------|
 | Bathroom | Master   | Always connects to master bedroom  |
 | Bedroom  | Master   | Always connects to master bathroom |
 | Foyer    | Front    | Always connects to garage          |
