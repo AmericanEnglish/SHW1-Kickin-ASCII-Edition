@@ -77,15 +77,33 @@
 	(list 
 		garage foyer parlour kitchen pantry bathroom bedroom office)
 )
+(defn gen_room 
+  "Generates a room given an room template, and a room ID"
+  [template room_id]
+  (nil) ; some function here 
+)
+
+(defn gen_new 
+  "Generates a room by passing a randomly selected template to gen_room"
+  [room_id]
+  (gen_room 
+      (nil) ; Some function here  
+      room_id
+  )
+)
 
 (defn gen_map
-	(let [max 50]
-		(loop [room (list (gen_room "foyer"))cur 1]
-			(if (= cur max))
+    "Generates a map given no arguments. Yet."
+    (let [maximum 50]
+		(loop [room (list (gen_room "foyer" 1)) cur 1]
+			(if (= cur maximum)
 				room
 				(recur
-					(conj room(gen_new))(+ cur 1)
+					(conj room(gen_new (+ cur 1)))
+                    (+ cur 1)
 				)
-		)
+            )
+        )
 	)
 )
+
