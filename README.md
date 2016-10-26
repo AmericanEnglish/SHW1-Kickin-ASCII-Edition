@@ -75,6 +75,7 @@ Coming soon
 | Pantry   | All      | Only   connects to  full kitchen   |
 
 ### Misc Rules
+* Rooms who "always connect" must have appropriate room generated next
 * Start at front foyer
 * No more than 50 total rooms
 * No less than 8 total rooms
