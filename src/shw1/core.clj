@@ -57,6 +57,6 @@
   "Gets the program going! Without where would we be?"
   [& args]
   (println "Hello! ARE YOU READY?")
-  (gather_input)
+;  (gather_input)
 )
 
