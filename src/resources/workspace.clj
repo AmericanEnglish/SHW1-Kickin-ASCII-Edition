@@ -8,7 +8,7 @@
 
 (defn gen_new 
   "Generates a room by passing a randomly selected template to gen_room"
-  [room_id]
+  [all_rooms room_id]
   (gen_room 
       (nil) ; Some function here  
       room_id
