@@ -77,3 +77,15 @@
 	(list 
 		garage foyer parlour kitchen pantry bathroom bedroom office)
 )
+
+(defn gen_map
+	(let [max 50]
+		(loop [room (list (gen_room "foyer"))cur 1]
+			(if (= cur max))
+				room
+				(recur
+					(conj room(gen_new))(+ cur 1)
+				)
+		)
+	)
+)
