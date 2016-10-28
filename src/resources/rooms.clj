@@ -167,11 +167,6 @@
 	          	:total_exits 2
 	          	:description "test_descrip_med"
 	          )
-	          (hash-map
-	          	:type ""
-	          	:total_exits 
-	          	:description "test_descrip_small"
-	          )
 	        )
 	    )
 	    (hash-map 
@@ -180,7 +175,7 @@
 	        (list 
 	          (hash-map 
 	            :type "3-Car"
-	            :total_exits 
+	            :total_exits 1
 	            :description "test_descrip_large"
 	          )
 	          (hash-map
@@ -196,26 +191,82 @@
 	        )
 	    )
 	    (hash-map 
-	      :basename ""
+	      :basename "Kitchen"
 	      :subclass 
 	        (list 
 	          (hash-map 
-	            :type ""
-	            :total_exits 
+	            :type "Full"
+	            :total_exits 4
 	            :description "test_descrip_large"
 	          )
 	          (hash-map
-	          	:type ""
-	          	:total_exits 
+	          	:type "Half"
+	          	:total_exits 2
+	          	:description "test_descrip_med"
+	          )
+
+	        )
+	    )
+	    (hash-map 
+	      :basename "Office"
+	      :subclass 
+	        (list 
+	          (hash-map 
+	            :type "Large"
+	            :total_exits 2
+	            :description "test_descrip_large"
+	          )
+	          (hash-map
+	          	:type "Medeium"
+	          	:total_exits 1
 	          	:description "test_descrip_med"
 	          )
 	          (hash-map
-	          	:type ""
-	          	:total_exits 
+	          	:type "Small"
+	          	:total_exits 1
 	          	:description "test_descrip_small"
 	          )
 	        )
 	    )
+	    (hash-map 
+	      :basename "Pantry"
+	      :subclass 
+	        (list 
+	          (hash-map
+	            :type "Large"
+	            :total_exits 1
+	            :description "test_descrip_large"
+	          )
+	          (hash-map
+	          	:type "small"
+	          	:total_exits 1
+	          	:description "test_descrip_med"
+	          )
+	        )
+	    )
+	    (hash-map 
+	      :basename "Parlour"
+	      :subclass 
+	        (list 
+	          (hash-map 
+	            :type "Dining"
+	            :total_exits 4
+	            :description "test_descrip_large"
+	          )
+	          (hash-map
+	          	:type "Family"
+	          	:total_exits 4
+	          	:description "test_descrip_med"
+	          )
+	          (hash-map
+	          	:type "Living"
+	          	:total_exits 4
+	          	:description "test_descrip_small"
+	          )
+	        )
+	    )
+	    
+	)
 )
 (defn gen_room 
   "Generates a room given an room template, and a room ID"
