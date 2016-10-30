@@ -13,9 +13,9 @@
 
 (defn gen_new 
   "Generates a room by passing a randomly selected template to gen_room"
-  [all_rooms room_id]
+  [all_templates room_id]
   (gen_room 
-      (rand-nth all-rooms) 
+      (rand-nth all_templates) 
       room_id
   )
 )
