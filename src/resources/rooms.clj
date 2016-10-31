@@ -100,8 +100,10 @@
 )
 
 (defn map_linker
-	"Gives rooms"
-	[rooms])
+	"Gives linked rooms"
+	[room exits]
+	(assoc room :exits [exit_pick]) ; exit pick gives interger for amount of exits
+		
 
 (defn gen_map
     "Generates a map given no arguments. Yet."
