@@ -1,6 +1,8 @@
-(ns resources.rooms)
-(declare rooms)
-(declare templates)
+(ns resources.rooms
+  (:require [resources.room-templates :refer :all])
+)
+
+;(declare rooms)
 
 ;(def garage
 ;	(hash-map
