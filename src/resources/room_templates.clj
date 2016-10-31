@@ -1,4 +1,5 @@
 (ns resources.room-templates)
+(declare room_spec)
 
 (def room_spec
   (list
