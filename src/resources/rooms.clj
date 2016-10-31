@@ -149,7 +149,7 @@
 (defn find_room 
   ""
   [all_rooms id]
-  (filter #(= id (:id %)) all_rooms)
+  (nth 0 (filter #(= id (:id %)) all_rooms))
 )
 
 (defn remove_room 
