@@ -100,17 +100,19 @@
 )
 
 (defn map_linker
-	"Gives rooms"
-	[rooms])
+	"Gives room with linked exits"
+	[room exits]
+	(assoc room :exits [exit_pick]) ; exit pick gives interger for amount of exits
+
 
 (defn gen_map
     "Generates a map given no arguments. Yet."
     (let [maximum 50]
-		(loop [room (list (gen_room "foyer" 1)) cur 1]
+		(loop [rooms (list (gen_new templates 1)) cur 1]
 			(if (= cur maximum)
-				room
+				rooms
 				(recur
-					(conj room(gen_new (+ cur 1)))
+					(conj (gen_new (+ cur 1)))
                     (+ cur 1)
 				)
             )
