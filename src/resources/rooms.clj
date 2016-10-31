@@ -1,5 +1,6 @@
 (ns resources.rooms)
 (declare rooms)
+(declare templates)
 
 ;(def garage
 ;	(hash-map
@@ -127,13 +128,15 @@
 ; First pick exit
 (defn pick_exit 
   "Returns an exit id for a room if given all exits or all exits and a required exit"
-  [exits all_rooms]
+  ([exits all_rooms]
   ; Pick one exit
-  [exits required all_rooms]
+  (list 1))
+  ([exits required all_rooms]
   ; Pick one exit but "required" will be the other exit
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
+  (list 1 2))
 )
 
 ; Update a room hash-map 
@@ -211,6 +214,7 @@
 
 (defn gen_map
     "Generates a map given no arguments. Yet."
+    []
     (let [maximum 50]
 		(loop [rooms (list (gen_new templates 1)) cur 1]
 			(if (= cur maximum)
