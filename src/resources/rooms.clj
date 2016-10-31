@@ -98,12 +98,30 @@
       room_id
   )
 )
+; First pick exit
+(defn pick_exit 
+  "Returns an exit id for a room if given all exits or all exits and a required exit"
+  [exits]
+  ; Pick one exit
+  [exits required]
+  ; Pick one exit but "required" will be the other exit
+  ; Room cannot have itself as the other exit
+  ; Cannot have multiple exits to one room
+  ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
+)
+
 
 (defn map_linker
 	"Gives room with linked exits"
-	[room exits]
-	(assoc room :exits [exit_pick]) ; exit pick gives interger for amount of exits
-
+	[rooms all_exits]
+    (loop [bucket all_exits]
+        (if (empty? bucket)
+            rooms
+            (recur nil) ; Function here
+        )
+    )
+    
+)
 
 (defn gen_map
     "Generates a map given no arguments. Yet."
