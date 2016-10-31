@@ -110,6 +110,40 @@
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
 )
 
+; Update a room hash-map 
+(defn update_room_exits 
+  ""
+  [room new_exit]
+  (assoc room :exits (conj (:exits room) new_exit))
+)
+
+(defn find_room 
+  ""
+  [all_rooms id]
+  (filter #(= id (:id %)) all_rooms)
+)
+
+(defn remove_room 
+  "Removes a room from a list of room when given an id"
+  [all_rooms id]
+  (filter #(not (= id (:id %))) all_rooms)
+)
+
+(defn link_one_way 
+  ""
+  [all_rooms id1 id2]
+  (let [room (find_room all_rooms id1)]
+    (update_room_exits room id2)
+  )
+)
+
+(defn link_two_way
+  "Give all rooms and two ids returns the a new list with updated rooms"
+  [all_rooms id1 id2]
+  (let [adjusted_rooms (remove_room (remove_room all_rooms id2) id1)] ; Removes two rooms
+    (conj adjusted_rooms (link_one_way all_rooms id1 id2) (link_one_way all_rooms id2 id1))
+  )
+)
 
 (defn map_linker
 	"Gives room with linked exits"
