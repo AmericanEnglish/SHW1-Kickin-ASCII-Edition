@@ -110,7 +110,12 @@
   [template room_id]
   (let [sub (rand-nth (:subclass template))]
     (list
-    	(hash-map :id room_id :name (str (:type sub) (:basename template)) :description (:description sub) :exits (vector))
+    	(hash-map
+        :id room_id
+        :name (str (:type sub) (:basename template))
+        :description (:description sub)
+        :exits (vector)
+      )
     	(repeat (:total_exits sub) room_id)
     )
   )
