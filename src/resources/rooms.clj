@@ -77,7 +77,32 @@
 ;	(list 
 ;		garage foyer parlour kitchen pantry bathroom bedroom office)
 ;)
+(defn drop-items
+  [group items]
+  (loop [updated_group group remaining items]
+    (if (empty? items)
+      updated_group
+      (recur (drop-item updated_group (nth 0 items)) (drop 1 items))
+    )
+  )
+)
 
+(defn drop-item
+  [group item]
+  (let [index (.indexOf group item)]
+    (if (= index -1)
+      group
+      (drop-nth index group)
+    )
+  )
+) 
+
+  
+(defn drop-nth
+  "Drops the nth item in a vector or list and returns it"
+  [n thing]
+  (apply conj (take n thing) (drop (+ n 1) thing))
+)
 
 (defn gen_room 
   "Generates a room given an room template, and a room ID"
@@ -98,6 +123,7 @@
       room_id
   )
 )
+
 ; First pick exit
 (defn pick_exit 
   "Returns an exit id for a room if given all exits or all exits and a required exit"
@@ -149,7 +175,7 @@
   "Given all rooms and two exits returns two exits"
   [all_rooms remaining_exits]
   (let [required_exit (pick_exit (remaining_exits all_rooms))]
-    (let [new_remaining_exits (drop required_exit remaining_exits)]
+    (let [new_remaining_exits (drop-item remaining_exits required_exit)]
           (pick_exit new_remaining_exits required_exit all_rooms)
     )
   )
@@ -159,22 +185,8 @@
   ""
   [all_exits exit_pair]
   ; Removes pair from all_exits
-  (nil)
+  (drop-items all_exits exit_pair)
 )
-
-(defn generate_l
-  ""
-  [all_rooms all_exits]
-  (let [exit_pair (pick_two_exits all_rooms all_exits)]
-    (let [sanitized_exits (sanitize_exits all_exits exit_pair)]
-        (list 
-          sanitized_exits
-          (link_two_way (nth 0 exit_pair) (nth 1 exit_pair))
-        )
-    )
-  )
-)
-
 
 (defn map_linker
 	"Gives room with linked exits"
