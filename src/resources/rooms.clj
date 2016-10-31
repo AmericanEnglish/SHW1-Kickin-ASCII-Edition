@@ -101,7 +101,7 @@
 ; First pick exit
 (defn pick_exit 
   "Returns an exit id for a room if given all exits or all exits and a required exit"
-  [exits]
+  [exits all_rooms]
   ; Pick one exit
   [exits required all_rooms]
   ; Pick one exit but "required" will be the other exit
@@ -148,7 +148,7 @@
 (defn pick_two_exits
   "Given all rooms and two exits returns two exits"
   [all_rooms remaining_exits]
-  (let [required_exit (pick_exit (remaining_exits))]
+  (let [required_exit (pick_exit (remaining_exits all_rooms))]
     (let [new_remaining_exits (drop required_exit remaining_exits)]
           (pick_exit new_remaining_exits required_exit all_rooms)
     )
