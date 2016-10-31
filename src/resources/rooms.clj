@@ -77,14 +77,11 @@
 ;	(list 
 ;		garage foyer parlour kitchen pantry bathroom bedroom office)
 ;)
-(defn drop-items
-  [group items]
-  (loop [updated_group group remaining items]
-    (if (empty? items)
-      updated_group
-      (recur (drop-item updated_group (nth 0 items)) (drop 1 items))
-    )
-  )
+
+(defn drop-nth
+  "Drops the nth item in a vector or list and returns it"
+  [n thing]
+  (apply conj (take n thing) (drop (+ n 1) thing))
 )
 
 (defn drop-item
@@ -97,13 +94,16 @@
   )
 ) 
 
-  
-(defn drop-nth
-  "Drops the nth item in a vector or list and returns it"
-  [n thing]
-  (apply conj (take n thing) (drop (+ n 1) thing))
+(defn drop-items
+  [group items]
+  (loop [updated_group group remaining items]
+    (if (empty? items)
+      updated_group
+      (recur (drop-item updated_group (nth 0 items)) (drop 1 items))
+    )
+  )
 )
-
+  
 (defn gen_room 
   "Generates a room given an room template, and a room ID"
   [template room_id]
