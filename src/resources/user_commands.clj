@@ -25,19 +25,21 @@
   player
 )
 
-(defn grab_room [player]
+(defn grab_room [player rooms]
     (nth (filter #(= (:id %) (:location player) ) rooms) 0)
 )
 
 (defn find_exits_hash
-  [room_ints]
-  (loop [cur_rooms room_ints room_maps []]
-    (if (empty? cur_rooms)
-      room_maps
-      (recur (drop 1 cur_rooms) ; One room has been filtered for
-             (apply conj room_maps ; Put that into the vector of rooms
-                   (filterv #(= (:id %) (nth cur_rooms 0)) rooms) ; Filter for one room
-             )
+  [rooms]
+  (let [room_ints (map (:id rooms))]
+    (loop [cur_rooms room_ints room_maps []]
+      (if (empty? cur_rooms)
+        room_maps
+        (recur (drop 1 cur_rooms) ; One room has been filtered for
+               (apply conj room_maps ; Put that into the vector of rooms
+                     (filterv #(= (:id %) (nth cur_rooms 0)) rooms) ; Filter for one room
+               )
+        )
       )
     )
   )

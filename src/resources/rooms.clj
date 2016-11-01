@@ -158,7 +158,7 @@
       (rand-nth items)
       (let [exit (rand-nth items)]
         (let [accept (acceptable exits)]
-          (if (exit in accept)
+          (if (> -1 (.indexOf exit accept))
             (list exit)
             (recur exits all_rooms)
           )
@@ -252,7 +252,7 @@
     "Generates a map given no arguments. Yet."
     []
     (let [maximum 50]
-		(loop [rooms (list (gen_new templates 1)) cur 1]
+		(loop [rooms (list (gen_new room_spec 1)) cur 1]
 			(if (= cur maximum)
 				rooms
 				(recur
