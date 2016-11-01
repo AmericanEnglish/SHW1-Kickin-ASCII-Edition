@@ -14,7 +14,7 @@
 
 (defn halp 
     "Displays help information about a specific command or just displays all commands"
-    [command player]
+    [command player rooms]
   (if (= command "")
     (println "User commands: enter, look, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
@@ -46,21 +46,21 @@
 )
 
 (defn grab_exits
-  [player]
+  [player rooms]
   (find_exits_hash 
-    (:exits (grab_room player))
+    (:exits (grab_room player rooms))
   )
 )
 
 (defn enter
     "Moves the player into the room"
-    [args player]
+    [args player rooms]
     (let [result 
           (filter 
             #(
               = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
              ) 
-             (grab_exits player)
+             (grab_exits player rooms)
           )
         ]
       (if (not (empty? result))
@@ -79,15 +79,15 @@
 
 (defn look 
     "Allows player to look around a room"
-    [args player]
-    (let [cur_room (grab_room player)]
+    [args player rooms]
+    (let [cur_room (grab_room player rooms)]
       (do
         (println (:name cur_room))
         (println (:description cur_room))
       )
     )
     (println "Exits:")
-    (loop [res (map :name (grab_exits player))]
+    (loop [res (map :name (grab_exits player rooms))]
       (if (not (empty? res))
         (do
           (println (nth res 0))
@@ -104,7 +104,7 @@
 
 (defn quit
   "Allows the user to end the game."
-  [args player]
+  [args player rooms]
   ;Carlos will put the ask for comfirmation code
   (print "Are you sure you want to leave? (y/N): ")
   (flush)
