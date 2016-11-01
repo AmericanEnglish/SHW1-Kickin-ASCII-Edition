@@ -134,12 +134,12 @@
 
 (defn acceptable
   [items]
-  (loop [chest (distinct items) accept []]
+  (loop [chest (distinct items) accept (list)]
     (let [stash (filter #(= % (nth 0 chest) items))]
-      (if (length stash)
+      (if (count stash > 1)
         (if (empty? chest)
           accept
-          (recur)
+          (recur (distinct items) )
         )
       )
     )
@@ -150,18 +150,22 @@
   "Returns an exit id for a room if given all exits or all exits and a required exit"
   ([exits all_rooms]
   ; Pick one exit
-  ; Check to make sure the exit isn't unique is set(exits) != list(exits)
+  ; Check to make sure the exit isn't unique in set(exits) != list(exits)
   ; If set(exits) == list(exits), then proceed anyways
-  (loop [items exits itemz all-rooms]
+  (loop [items exits itemz all_rooms]
     (if (items == (distinct items))
       (rand-nth items)
       (let [exit (rand-nth items)]
-        unique?
+        (let [accept (acceptable exits)]
+          (if (exit in accept)
+            (list exit)
+            (recur exits all_rooms)
+          )
+        )
       )
-
     )
-
-  (list 1))
+  )
+  )
   ([exits required all_rooms]
   ; Pick one exit but "required" will be the other exit
   ; Room cannot have itself as the other exit
