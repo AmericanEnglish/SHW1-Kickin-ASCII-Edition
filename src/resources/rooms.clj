@@ -102,7 +102,7 @@
   (loop [updated_group group remaining items]
     (if (empty? items)
       updated_group
-      (recur (drop-item updated_group (nth 0 items)) (drop 1 items))
+      (recur (drop-item updated_group (nth items 0)) (drop 1 items))
     )
   )
 )
@@ -137,9 +137,9 @@
   (loop [chest (distinct items) accept (list)]
     (if (empty? chest)
       accept
-      (let [stash (filter #(= % (nth 0 chest) items))]
-        (if ((count stash) > 1)
-            (recur (drop 1 chest) (conj accept (nth 0 chest)))
+      (let [stash (filter #(= % (nth chest 0)) items)]
+        (if (> (count stash) 1)
+            (recur (drop 1 chest) (conj accept (nth chest 0)))
             (recur (drop 1 chest) accept)
         )
       )
@@ -185,7 +185,7 @@
 (defn find_room 
   ""
   [all_rooms id]
-  (nth 0 (filter #(= id (:id %)) all_rooms))
+  (nth (filter #(= id (:id %)) all_rooms) 0)
 )
 
 (defn remove_room 
@@ -232,13 +232,13 @@
 	[all_rooms all_exits]
     ; [rooms bucket]
     (loop [room_bucket (list all_rooms all_exits)]
-        (if (empty? (nth 1 room_bucket))
-            (nth 0 room_bucket)
+        (if (empty? (nth room_bucket 1))
+            (nth room_bucket 0)
             (let [exit_pair (pick_two_exits all_rooms all_exits)]
               (let [sanitized_exits (sanitize_exits all_exits exit_pair)]
                   (recur
                     (list 
-                      (link_two_way (nth 0 exit_pair) (nth 1 exit_pair))
+                      (link_two_way (nth exit_pair 0) (nth exit_pair 0))
                       sanitized_exits
                     )
                   )
