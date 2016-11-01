@@ -137,6 +137,8 @@
   "Returns an exit id for a room if given all exits or all exits and a required exit"
   ([exits all_rooms]
   ; Pick one exit
+  ; Check to make sure the exit isn't unique is set(exits) != list(exits)
+  ; If set(exits) == list(exits), then proceed anyways
   (list 1))
   ([exits required all_rooms]
   ; Pick one exit but "required" will be the other exit
