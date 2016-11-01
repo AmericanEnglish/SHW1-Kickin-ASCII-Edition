@@ -136,7 +136,7 @@
   [items]
   (loop [chest (distinct items) accept (list)]
     (let [stash (filter #(= % (nth 0 chest) items))]
-      (if (count stash > 1)
+      (if ((count stash) > 1)
         (if (empty? chest)
           accept
           (recur (distinct items) )
