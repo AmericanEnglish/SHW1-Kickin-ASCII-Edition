@@ -135,11 +135,12 @@
 (defn acceptable
   [items]
   (loop [chest (distinct items) accept (list)]
-    (let [stash (filter #(= % (nth 0 chest) items))]
-      (if ((count stash) > 1)
-        (if (empty? chest)
-          accept
-          (recur (distinct items) )
+    (if (empty? chest)
+      accept
+      (let [stash (filter #(= % (nth 0 chest) items))]
+        (if ((count stash) > 1)
+            (recur (drop 1 chest) (conj accept (nth 0 chest)))
+            (recur (drop 1 chest) accept)
         )
       )
     )
