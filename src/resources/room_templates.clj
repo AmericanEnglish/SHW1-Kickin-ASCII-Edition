@@ -72,12 +72,12 @@
             )
             (hash-map
               :type "2-Car"
-              :total_exits 
+              :total_exits 1
               :description "You are in the 2-Car Garage, parked inside is a\n candy-apple red 1972 Corvette Sting-ray and a white & gold 1969 Hurst Olds."
             )
             (hash-map
               :type "1-Car"
-              :total_exits 
+              :total_exits 1
               :description "You are in the 1-Car Garage, parked inside is a\n candy-apple red 1972 Corvette Sting-ray."
             )
           )
