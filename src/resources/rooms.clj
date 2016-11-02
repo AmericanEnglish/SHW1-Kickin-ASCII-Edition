@@ -146,6 +146,30 @@
     )
   )
 )
+
+(defn find_room 
+  ""
+  [all_rooms id]
+  (nth (filter #(= id (:id %)) all_rooms) 0)
+)
+
+(defn duplicate_exit?
+  [door1 door2 all_rooms]
+  (let [room (find_room all_rooms door2)]
+    (if (> (.indexOf (:exits room) door1) -1)
+      true
+      false
+    )
+  )
+)
+
+(defn one_distinct_exit?
+  [door all_rooms]
+  (let [exit (find_room all_rooms door)]
+    (= (count (:exits exit)) 0)
+  )
+)
+
 ; First pick exit
 (defn pick_exit 
   "Returns an exit id for a room if given all exits or all exits and a required exit"
@@ -172,7 +196,35 @@
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
-  (list 1 2))
+  (loop [doors exits door1 required rooms all_rooms]
+    (if (= doors (distinct doors))
+      (let [door2 (rand-nth exits)]
+        (if (= door1 door2)
+          (recur doors door1 rooms)
+          (if (duplicate_exit? door1 door2 rooms)
+            (recur doors door1 rooms)
+            (if (and (one_distinct_exit? door1 rooms) (one_distinct_exit? door2 rooms))
+              (recur doors door1 rooms)
+              (list door1 door2)
+            )
+          )
+        )
+      )
+      (let [door2 (rand-nth exits)]
+        (if (> (.indexOf door2 (acceptable exits)) -1)
+          (if (= door1 door2)
+            (recur doors door1 rooms)
+            (if (duplicate_exit? door1 door2 rooms)
+              (recur doors door1 rooms)
+              (list door1 door2)
+            )
+          )
+          (recur doors door1 rooms)
+        )
+      )
+    )
+  )
+  )
 )
 
 ; Update a room hash-map 
@@ -180,12 +232,6 @@
   ""
   [room new_exit]
   (assoc room :exits (conj (:exits room) new_exit))
-)
-
-(defn find_room 
-  ""
-  [all_rooms id]
-  (nth (filter #(= id (:id %)) all_rooms) 0)
 )
 
 (defn remove_room 
