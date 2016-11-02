@@ -321,17 +321,15 @@
 
 (defn gen_map
     "Generates a map given no arguments. Yet."
-    []
-    (let [maximum 50]
-		(loop [rooms (list (gen_new room_spec 1)) cur 1]
-			(if (= cur maximum)
-				rooms
-				(recur
-					(conj (gen_new (+ cur 1)))
-                    (+ cur 1)
-				)
+    [maximum]
+      (loop [rooms (list) cur 1]
+          (if (> cur maximum)
+              rooms
+              (recur
+                  (conj (gen_new room_spec 1))
+                  (+ cur 1)
+              )
             )
-        )
-	)
+      )
 )
 
