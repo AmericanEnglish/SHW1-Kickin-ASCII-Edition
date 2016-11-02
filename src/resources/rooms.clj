@@ -329,7 +329,7 @@
                   (conj (gen_new room_spec 1))
                   (+ cur 1)
               )
-            )
+          )
       )
 )
 
