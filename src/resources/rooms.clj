@@ -193,14 +193,14 @@
   ; Pick one exit
   ; Check to make sure the exit isn't unique in set(exits) != list(exits)
   ; If set(exits) == list(exits), then proceed anyways
-  (loop [items exits]
-    (if (items == (distinct items))
-      (rand-nth items)
-      (let [exit (rand-nth items)]
+  (loop []
+    (if (exits == (distinct exits))
+      (rand-nth exits)
+      (let [exit (rand-nth exits)]
         (let [accept (acceptable exits)]
           (if (> -1 (.indexOf exit accept))
             (list exit)
-            (recur exits)
+            (recur)
           )
         )
       )
@@ -212,30 +212,39 @@
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
-  (loop [] 
-    (if (= doors (distinct doors)) ; 
-      (let [door2 (rand-nth doors)] ; Down to the remaining exits
-        (if (= door1 door2)
-          (recur) ; Pick failed, try again
-          (if (duplicate_exit? door1 door2 rooms)
-            (recur) ; Pick failed, try again
-            (if (and (one_distinct_exit? door1 rooms) (one_distinct_exit? door2 rooms))
-              (recur) ; Pick failed, try again
-              (list door1 door2)
-            )
-          )
+  (let [accept (acceptable doors) unaccept (unaccptable)]
+    (if (or 
+          (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
-      )
-      (let [door2 (rand-nth doors)] ; Still more exit multiples to go
-        (if (> (.indexOf door2 (acceptable doors)) -1)
-          (if (= door1 door2)
-            (recur) ; Pick failed, try again
-            (if (duplicate_exit? door1 door2 rooms)
-              (recur) ; Pick failed, try again
-              (list door1 door2)
+      (loop [choices (drop-item unaccept door1)]
+        (if (empty? choices)
+          (list door1)
+          (let [door2 (rand-nth accept)]
+            (if (not (= door1 door2))
+              (if (not (duplicate_exit? door1 door2 rooms))
+                (if (not (and (one_distinct_exit? door1) (one_distinct_exit? door2)))
+                  (list door1 door2)
+                  (recur (drop 1 choices))
+                )
+                (recur (drop 1 choices))
+              )
+              (recur (drop 1 choices))
             )
           )
-          (recur) ; Pick failed, try again
+        ); this is the (1 2 3 4) loop
+      )
+      (loop [choices (drop-time accept door1)]; This is the (1 1 2 2 3 3 4 4) loop
+        (if (empty? choices)
+          (list door1)
+          (let [door2 (rand-nth accept)]
+            (if (not (= door1 door2))
+              (if (not (duplicate_exit? door1 door2 rooms))
+                (list door1 door2)
+                (recur (drop 1 choices))
+              )
+              (recur (drop 1 choices))
+            )
+          )
         )
       )
     )
