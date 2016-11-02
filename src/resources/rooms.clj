@@ -200,11 +200,11 @@
     (if (= doors (distinct doors)) ; 
       (let [door2 (rand-nth exits)] ; Down to the remaining exits
         (if (= door1 door2)
-          (recur)
+          (recur) ; Pick failed, try again
           (if (duplicate_exit? door1 door2 rooms)
-            (recur)
+            (recur) ; Pick failed, try again
             (if (and (one_distinct_exit? door1 rooms) (one_distinct_exit? door2 rooms))
-              (recur)
+              (recur) ; Pick failed, try again
               (list door1 door2)
             )
           )
@@ -213,13 +213,13 @@
       (let [door2 (rand-nth exits)] ; Still more exit multiples to go
         (if (> (.indexOf door2 (acceptable exits)) -1)
           (if (= door1 door2)
-            (recur)
+            (recur) ; Pick failed, try again
             (if (duplicate_exit? door1 door2 rooms)
-              (recur)
+              (recur) ; Pick failed, try again
               (list door1 door2)
             )
           )
-          (recur)
+          (recur) ; Pick failed, try again
         )
       )
     )
