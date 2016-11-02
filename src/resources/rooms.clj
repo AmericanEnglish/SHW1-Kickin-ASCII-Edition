@@ -212,7 +212,7 @@
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
-  (let [accept (acceptable doors) unaccept (unaccptable)]
+  (let [accept (acceptable doors) unaccept (unacceptable)]
     (if (or 
           (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
@@ -233,7 +233,7 @@
           )
         ); this is the (1 2 3 4) loop
       )
-      (loop [choices (drop-time accept door1)]; This is the (1 1 2 2 3 3 4 4) loop
+      (loop [choices (drop-item accept door1)]; This is the (1 1 2 2 3 3 4 4) loop
         (if (empty? choices)
           (list door1)
           (let [door2 (rand-nth accept)]
@@ -322,13 +322,16 @@
 (defn gen_map
     "Generates a map given no arguments. Yet."
     [maximum]
-      (loop [rooms (list) cur 1]
+      (loop [rooms (list) bucket (list) cur 1]
           (if (> cur maximum)
-              rooms
+              (list rooms bucket)
+            (let [tupl (gen_new room_spec cur)]
               (recur
-                  (conj (gen_new room_spec 1))
+                  (conj rooms (nth tupl 0))
+                  (apply conj bucket (nth tupl 1))
                   (+ cur 1)
               )
+            )
           )
       )
 )

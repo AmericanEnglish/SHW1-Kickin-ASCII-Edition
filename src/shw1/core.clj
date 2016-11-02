@@ -59,5 +59,6 @@
   [& args]
   (println "Hello! ARE YOU READY?")
 ;  (gather_input)
+  (println (gen_map 10))
 )
 
