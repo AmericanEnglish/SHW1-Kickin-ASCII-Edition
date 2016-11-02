@@ -147,6 +147,22 @@
   )
 )
 
+(defn unacceptable 
+  ""
+  [exits rooms]
+  (loop [chest (distinct exits) unaccept []] 
+    (if (empty? all)
+      unaccept
+      (let [results (filter #(= % (take 1 (distinct chest))) all)]
+        (if (= 1 (count results))
+          (recur (drop 1 chest) (conj unaccept (take 1 chest)))
+          (recur (drop 1 chest) unaccept)
+        )
+      )
+    )
+  )
+)
+
 (defn find_room 
   ""
   [all_rooms id]
