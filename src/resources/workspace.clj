@@ -27,7 +27,9 @@
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
   (let [accept (acceptable doors) unaccept (unaccptable)]
-    (if (or (= doors (distinct doors) (= doors (conj unaccept door1))))
+    (if (or 
+          (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
+        )
       (loop [choices unaccept]
         (if (empty? choices)
           (list door1)
