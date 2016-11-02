@@ -177,49 +177,49 @@
   ; Pick one exit
   ; Check to make sure the exit isn't unique in set(exits) != list(exits)
   ; If set(exits) == list(exits), then proceed anyways
-  (loop [items exits itemz all_rooms]
+  (loop [items exits]
     (if (items == (distinct items))
       (rand-nth items)
       (let [exit (rand-nth items)]
         (let [accept (acceptable exits)]
           (if (> -1 (.indexOf exit accept))
             (list exit)
-            (recur exits all_rooms)
+            (recur exits)
           )
         )
       )
     )
   )
   )
-  ([exits required all_rooms]
+  ([doors door1 rooms]
   ; Pick one exit but "required" will be the other exit
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
-  (loop [doors exits door1 required rooms all_rooms]
-    (if (= doors (distinct doors))
-      (let [door2 (rand-nth exits)]
+  (loop [] 
+    (if (= doors (distinct doors)) ; 
+      (let [door2 (rand-nth exits)] ; Down to the remaining exits
         (if (= door1 door2)
-          (recur doors door1 rooms)
+          (recur)
           (if (duplicate_exit? door1 door2 rooms)
-            (recur doors door1 rooms)
+            (recur)
             (if (and (one_distinct_exit? door1 rooms) (one_distinct_exit? door2 rooms))
-              (recur doors door1 rooms)
+              (recur)
               (list door1 door2)
             )
           )
         )
       )
-      (let [door2 (rand-nth exits)]
+      (let [door2 (rand-nth exits)] ; Still more exit multiples to go
         (if (> (.indexOf door2 (acceptable exits)) -1)
           (if (= door1 door2)
-            (recur doors door1 rooms)
+            (recur)
             (if (duplicate_exit? door1 door2 rooms)
-              (recur doors door1 rooms)
+              (recur)
               (list door1 door2)
             )
           )
-          (recur doors door1 rooms)
+          (recur)
         )
       )
     )
