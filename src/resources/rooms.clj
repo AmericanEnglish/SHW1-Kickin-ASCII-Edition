@@ -153,7 +153,7 @@
   (loop [chest (distinct exits) unaccept []] 
     (if (empty? chest)
       unaccept
-      (let [results (filter #(= % (take 1 (distinct chest))) all)]
+      (let [results (filter #(= % (take 1 (distinct chest))) exits)]
         (if (= 1 (count results))
           (recur (drop 1 chest) (conj unaccept (take 1 chest)))
           (recur (drop 1 chest) unaccept)
@@ -214,7 +214,7 @@
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
   (loop [] 
     (if (= doors (distinct doors)) ; 
-      (let [door2 (rand-nth exits)] ; Down to the remaining exits
+      (let [door2 (rand-nth doors)] ; Down to the remaining exits
         (if (= door1 door2)
           (recur) ; Pick failed, try again
           (if (duplicate_exit? door1 door2 rooms)
@@ -226,8 +226,8 @@
           )
         )
       )
-      (let [door2 (rand-nth exits)] ; Still more exit multiples to go
-        (if (> (.indexOf door2 (acceptable exits)) -1)
+      (let [door2 (rand-nth doors)] ; Still more exit multiples to go
+        (if (> (.indexOf door2 (acceptable doors)) -1)
           (if (= door1 door2)
             (recur) ; Pick failed, try again
             (if (duplicate_exit? door1 door2 rooms)
