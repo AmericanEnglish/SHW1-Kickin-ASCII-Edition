@@ -59,6 +59,11 @@
   [& args]
   (println "Hello! ARE YOU READY?")
 ;  (gather_input)
-  (println (gen_map 10))
+  (let [info gen_map 10]
+    (do 
+      (println (gen_map 10))
+      (println (map_linker (nth info 0) (nth info 1)))
+    )
+  )
 )
 
