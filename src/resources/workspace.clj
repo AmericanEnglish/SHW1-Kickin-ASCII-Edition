@@ -30,7 +30,7 @@
     (if (or 
           (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
-      (loop [choices unaccept]
+      (loop [choices (drop-item unaccept door1)]
         (if (empty? choices)
           (list door1)
           (let [door2 (rand-nth accept)]
@@ -47,7 +47,7 @@
           )
         ); this is the (1 2 3 4) loop
       )
-      (loop [choices accept]; This is the (1 1 2 2 3 3 4 4) loop
+      (loop [choices (drop-time accept door1)]; This is the (1 1 2 2 3 3 4 4) loop
         (if (empty? choices)
           (list door1)
           (let [door2 (rand-nth accept)]
