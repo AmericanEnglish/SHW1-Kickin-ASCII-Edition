@@ -14,7 +14,7 @@
         (let [accept (acceptable exits)]
           (if (> -1 (.indexOf exit accept))
             (list exit)
-            (recur exits)
+            (recur)
           )
         )
       )
