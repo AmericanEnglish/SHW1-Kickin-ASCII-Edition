@@ -151,7 +151,7 @@
   ""
   [exits rooms]
   (loop [chest (distinct exits) unaccept []] 
-    (if (empty? all)
+    (if (empty? chest)
       unaccept
       (let [results (filter #(= % (take 1 (distinct chest))) all)]
         (if (= 1 (count results))
