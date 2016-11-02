@@ -149,13 +149,13 @@
 
 (defn unacceptable 
   ""
-  [exits rooms]
+  [exits]
   (loop [chest (distinct exits) unaccept []] 
     (if (empty? chest)
       unaccept
-      (let [results (filter #(= % (take 1 (distinct chest))) exits)]
+      (let [results (filter #(= % (nth chest 0)) exits)]
         (if (= 1 (count results))
-          (recur (drop 1 chest) (conj unaccept (take 1 chest)))
+          (recur (drop 1 chest) (conj unaccept (nth chest 0)))
           (recur (drop 1 chest) unaccept)
         )
       )
