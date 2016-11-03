@@ -193,12 +193,14 @@
   ; Pick one exit
   ; Check to make sure the exit isn't unique in set(exits) != list(exits)
   ; If set(exits) == list(exits), then proceed anyways
+  (do 
+  (println "Pick_exit 1 arg")
   (loop []
-    (if (exits == (distinct exits))
+    (if (= exits (distinct exits))
       (rand-nth exits)
       (let [exit (rand-nth exits)]
         (let [accept (acceptable exits)]
-          (if (> -1 (.indexOf exit accept))
+          (if (> -1 (.indexOf accept exit))
             (list exit)
             (recur)
           )
@@ -207,12 +209,15 @@
     )
   )
   )
+  )
   ([doors door1 rooms]
   ; Pick one exit but "required" will be the other exit
   ; Room cannot have itself as the other exit
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
-  (let [accept (acceptable doors) unaccept (unacceptable)]
+  (do 
+    (println (str "Pick_exit called with " door1))
+   (let [accept (acceptable doors) unaccept (unacceptable)]
     (if (or 
           (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
@@ -250,6 +255,7 @@
     )
   )
   )
+  )
 )
 
 ; Update a room hash-map 
@@ -284,7 +290,7 @@
 (defn pick_two_exits
   "Given all rooms and two exits returns two exits"
   [all_rooms remaining_exits]
-  (let [required_exit (pick_exit (remaining_exits all_rooms))]
+  (let [required_exit (pick_exit remaining_exits all_rooms)]
     (let [new_remaining_exits (drop-item remaining_exits required_exit)]
           (pick_exit new_remaining_exits required_exit all_rooms)
     )
@@ -307,10 +313,13 @@
             (nth room_bucket 0)
             (let [exit_pair (pick_two_exits all_rooms all_exits)]
               (let [sanitized_exits (sanitize_exits all_exits exit_pair)]
-                  (recur
-                    (list 
-                      (link_two_way (nth exit_pair 0) (nth exit_pair 0))
-                      sanitized_exits
+                  (do
+                    (println room_bucket)
+                    (recur
+                      (list 
+                        (link_two_way (nth exit_pair 0) (nth exit_pair 0))
+                        sanitized_exits
+                      )
                     )
                   )
               )
