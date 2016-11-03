@@ -100,9 +100,9 @@
 (defn drop-items
   [group items]
   (loop [updated_group group remaining items]
-    (if (empty? items)
+    (if (empty? remaining)
       updated_group
-      (recur (drop-item updated_group (nth items 0)) (drop 1 items))
+      (recur (drop-item updated_group (nth remaining 0)) (drop 1 remaining))
     )
   )
 )
@@ -172,10 +172,9 @@
 (defn duplicate_exit?
   [door1 door2 all_rooms]
   (let [room (find_room all_rooms door2)]
-    (if (> (.indexOf (:exits room) door1) -1)
-      true
-      false
-    )
+    (do (println "Duplicate exit called!")
+
+    (> (.indexOf (:exits room) door1) -1))
   )
 )
 
@@ -195,19 +194,18 @@
   ; If set(exits) == list(exits), then proceed anyways
   (do 
   (println "Pick_exit 1 arg")
-  (loop []
     (if (= exits (distinct exits))
       (rand-nth exits)
-      (let [exit (rand-nth exits)]
-        (let [accept (acceptable exits)]
-          (if (> -1 (.indexOf accept exit))
-            (list exit)
-            (recur)
+      (let [accept (acceptable exits)]
+        (if (empty? accept)
+          (do 
+            (println "ERROR NO ACCEPTABLE EXITS #BROKEN")
+            (list 0)
           )
+          (list (rand-nth accept))
         )
       )
     )
-  )
   )
   )
   ([doors door1 rooms]
@@ -217,10 +215,12 @@
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
   (do 
     (println (str "Pick_exit called with " door1))
-   (let [accept (acceptable doors) unaccept (unacceptable)]
+   (let [accept (acceptable doors) unaccept (unacceptable doors)]
+     (do (println (str "Acceptable " accept)) (println (str "Unacceptable " unaccept))
     (if (or 
           (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
+      (do (println "This is the 1 2 3 3 4 loop")
       (loop [choices (drop-item unaccept door1)]
         (if (empty? choices)
           (list door1)
@@ -228,8 +228,10 @@
             (if (not (= door1 door2))
               (if (not (duplicate_exit? door1 door2 rooms))
                 (if (not (and (one_distinct_exit? door1) (one_distinct_exit? door2)))
-                  (list door1 door2)
-                  (recur (drop 1 choices))
+                  (do (println "DUPLICATE SUCCESS")
+                    (list door1 door2))
+                  (do (println "DUPLICATE FAILURE")
+                  (recur (drop 1 choices)))
                 )
                 (recur (drop 1 choices))
               )
@@ -237,22 +239,27 @@
             )
           )
         ); this is the (1 2 3 4) loop
-      )
-      (loop [choices (drop-item accept door1)]; This is the (1 1 2 2 3 3 4 4) loop
+      ))
+      (do (println "This is the 1 1 2 2 3 4 loop")
+      (loop [choices accept]; This is the (1 1 2 2 3 3 4 4) loop
+        (do (println choices)
         (if (empty? choices)
           (list door1)
           (let [door2 (rand-nth accept)]
+            (do (println (str "The door2 = " door2))
             (if (not (= door1 door2))
               (if (not (duplicate_exit? door1 door2 rooms))
-                (list door1 door2)
-                (recur (drop 1 choices))
+                (do (println (str "DUPLICATE SUCCESS " door2))
+                (list door1 door2))
+                (do (println "DUPLICATE FAILURE")
+                (recur (drop 1 choices)))
               )
               (recur (drop 1 choices))
-            )
+            ))
           )
-        )
-      )
-    )
+        ))
+      ))
+    ))
   )
   )
   )
@@ -290,9 +297,12 @@
 (defn pick_two_exits
   "Given all rooms and two exits returns two exits"
   [all_rooms remaining_exits]
-  (let [required_exit (pick_exit remaining_exits all_rooms)]
+  (let [required_exit (nth (pick_exit remaining_exits all_rooms) 0)]
+    (do 
+      (println (str "Picked required exit " required_exit))
     (let [new_remaining_exits (drop-item remaining_exits required_exit)]
           (pick_exit new_remaining_exits required_exit all_rooms)
+    )
     )
   )
 )
@@ -312,6 +322,7 @@
         (if (empty? (nth room_bucket 1))
             (nth room_bucket 0)
             (let [exit_pair (pick_two_exits all_rooms all_exits)]
+              (do (println (str "Your exit pair is " exit_pair))
               (let [sanitized_exits (sanitize_exits all_exits exit_pair)]
                   (do
                     (println room_bucket)
@@ -322,7 +333,7 @@
                       )
                     )
                   )
-              )
+              ))
             )
         )
     )
