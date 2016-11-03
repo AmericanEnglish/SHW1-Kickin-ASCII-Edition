@@ -193,8 +193,8 @@
   ; Check to make sure the exit isn't unique in set(exits) != list(exits)
   ; If set(exits) == list(exits), then proceed anyways
   (do 
-  (println "Pick_exit 1 arg")
-    (if (= exits (distinct exits))
+   (println "\tPick_Exit Called!")
+     (if (= exits (distinct exits))
       (rand-nth exits)
       (let [accept (acceptable exits)]
         (if (empty? accept)
@@ -214,13 +214,13 @@
   ; Cannot have multiple exits to one room
   ; Cannot pick an exit if only one copy remains unless all of 1 remain. -> if set == list of exit good to go.
   (do 
-    (println (str "Pick_exit called with " door1))
+    (println (str "\tPick_exit called with " door1 " !"))
    (let [accept (acceptable doors) unaccept (unacceptable doors)]
-     (do (println (str "Acceptable " accept)) (println (str "Unacceptable " unaccept))
+     (do (println (str "\t\tAcceptable " accept)) (println (str "\t\tUnacceptable " unaccept))
     (if (or 
           (= doors (distinct doors) (= (distinct doors) (conj unaccept door1)))
         )
-      (do (println "This is the 1 2 3 3 4 loop")
+      (do (println "\t\tThis is the case 1 loop")
       (loop [choices (drop-item unaccept door1)]
         (if (empty? choices)
           (list door1)
@@ -228,9 +228,9 @@
             (if (not (= door1 door2))
               (if (not (duplicate_exit? door1 door2 rooms))
                 (if (not (and (one_distinct_exit? door1) (one_distinct_exit? door2)))
-                  (do (println "DUPLICATE SUCCESS")
+                  (do (println "\t\tDUPLICATE SUCCESS")
                     (list door1 door2))
-                  (do (println "DUPLICATE FAILURE")
+                  (do (println "\t\tDUPLICATE FAILURE")
                   (recur (drop 1 choices)))
                 )
                 (recur (drop 1 choices))
@@ -240,7 +240,7 @@
           )
         ); this is the (1 2 3 4) loop
       ))
-      (do (println "This is the 1 1 2 2 3 4 loop")
+      (do (println "\t\tThis is the case 2 loop")
       (loop [choices accept]; This is the (1 1 2 2 3 3 4 4) loop
         (do (println choices)
         (if (empty? choices)
@@ -249,9 +249,9 @@
             (do (println (str "The door2 = " door2))
             (if (not (= door1 door2))
               (if (not (duplicate_exit? door1 door2 rooms))
-                (do (println (str "DUPLICATE SUCCESS " door2))
+                (do (println (str "\t\tDUPLICATE SUCCESS " door2))
                 (list door1 door2))
-                (do (println "DUPLICATE FAILURE")
+                (do (println "\t\tDUPLICATE FAILURE")
                 (recur (drop 1 choices)))
               )
               (recur (drop 1 choices))
@@ -298,11 +298,8 @@
   "Given all rooms and two exits returns two exits"
   [all_rooms remaining_exits]
   (let [required_exit (nth (pick_exit remaining_exits all_rooms) 0)]
-    (do 
-      (println (str "Picked required exit " required_exit))
     (let [new_remaining_exits (drop-item remaining_exits required_exit)]
           (pick_exit new_remaining_exits required_exit all_rooms)
-    )
     )
   )
 )
@@ -325,7 +322,7 @@
               (do (println (str "Your exit pair is " exit_pair))
               (let [sanitized_exits (sanitize_exits all_exits exit_pair)]
                   (do
-                    (println room_bucket)
+                    (println (str "New exit list " sanitized_exits))
                     (recur
                       (list 
                         (link_two_way (nth room_bucket 0) (nth exit_pair 0) (nth exit_pair 0))
