@@ -328,7 +328,7 @@
                     (println room_bucket)
                     (recur
                       (list 
-                        (link_two_way (nth exit_pair 0) (nth exit_pair 0))
+                        (link_two_way (nth room_bucket 0) (nth exit_pair 0) (nth exit_pair 0))
                         sanitized_exits
                       )
                     )
