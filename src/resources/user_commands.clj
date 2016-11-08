@@ -64,10 +64,16 @@
           )
         ]
       (if (not (empty? result))
-        (do 
-          (println (str "Entered " args " !"))
-          (println (str "\n" (:description (nth result 0))))
-          (assoc player :location (:id (nth result 0)))
+        (if (not (:locked result))
+          (do 
+            (println (str "Entered " args " !"))
+            (println (str "\n" (:description (nth result 0))))
+            (assoc player :location (:id (nth result 0)))
+          )
+          (do
+            (println (str args " is locked!"))
+            player
+          )
         )
         (do
           (println (str "There is no exit: " args "!"))
