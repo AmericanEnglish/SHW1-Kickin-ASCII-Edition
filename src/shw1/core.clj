@@ -58,12 +58,24 @@
   "Gets the program going! Without where would we be?"
   [& args]
   (println "Hello! ARE YOU READY?")
-;  (gather_input)
-  (let [info (gen_map 4)]
-    (do 
-      (println info)
-      (println (map_linker (nth info 0) (nth info 1)))
+  (let [filename "main_mappu.clj"]
+    (do
+      (spit filename "(def mappu (list\n")
+      (loop [stuff (nth (gen_map 500) 0)]
+        (if (not (empty? stuff))
+          (do
+            (spit filename (str (nth stuff 0) "\n\n") :append true)
+            (recur (drop 1 stuff)))
+          (spit filename "))" :append true)
+        )
+      )
     )
   )
+;  (gather_input)
+  ; (let [info (gen_map 4)]
+  ;   (do 
+  ;     (println info)
+  ;     (println (map_linker (nth info 0) (nth info 1)))
+  ;   )
+;  )
 )
-
