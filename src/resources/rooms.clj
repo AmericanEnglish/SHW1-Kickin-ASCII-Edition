@@ -336,6 +336,40 @@
     )
 )
 
+
+(defn link_player_room1
+  [player rooms]
+  (let [room1 (rand-nth rooms)]
+    ;(let [new_rooms1 (remove_room rooms (:id room1))]
+    (let [player_loc (find_room rooms (:location (:player player)))]
+      (conj 
+        (:exits player_loc)
+        (:id room1)
+      )
+      (conj
+        (:exits room1)
+        (:id player_loc)
+      )
+      (hash-map
+        :player player
+        :rooms rooms
+      )
+    )
+  )
+)
+
+(defn link_player_room2
+  [player rooms]
+  (link_player_room1 player rooms)
+  (link_player_room1 player rooms)
+)
+
+(defn link_player_room3
+  [player rooms]
+  (link_player_room2 player rooms)
+  (link_player_room1 player rooms)
+)
+
 (defn gen_rooms
   ""
   [maximum]

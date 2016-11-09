@@ -60,13 +60,16 @@
   (println "Hello! ARE YOU READY?")
   (let [filename "main_mappu.clj"]
     (do
-      (spit filename "(def mappu (list\n")
-      (loop [stuff (nth (gen_map 500) 0)]
-        (if (not (empty? stuff))
-          (do
-            (spit filename (str (nth stuff 0) "\n\n") :append true)
-            (recur (drop 1 stuff)))
-          (spit filename "))" :append true)
+      (let [mappp (gen_map 500)]
+        (link_player_room3 plyr mappp)
+        (spit filename "(def mappu (list\n")
+        (loop [stuff (nth mappp 0)]
+          (if (not (empty? stuff))
+            (do
+              (spit filename (str (nth stuff 0) "\n\n") :append true)
+              (recur (drop 1 stuff)))
+            (spit filename "))" :append true)
+          )
         )
       )
     )
