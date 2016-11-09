@@ -14,9 +14,13 @@
 
 (defn handler 
   "Handles the users commands, dispatching them to and fro"
-  [input commands player rooms]
+  [input commands user]
   ; This is obviously filler code for now
-  (let [parsed (sanitize_input input)]
+  (let [
+        parsed (sanitize_input input) 
+        player (:player user) 
+        rooms (:rooms player)
+      ]
     (let [result (search_command_name (nth parsed 0) commands)]
       (if (not (empty? result))
         ((:fn result) (clojure.string/join " " (drop 1 parsed)) player rooms)
@@ -32,16 +36,16 @@
 
 (defn gather_input 
   "Gathers users command input and parses it"
-  [rooms]
+  [user]
 ;  (print "=CMD=> ")
 ;  (flush)
-  (loop [player plyr]
+  (loop [player user]
     (do 
       (print "\n=CMD=> ")
       (flush)
       (let [input (read-line)]
         (if (not (clojure.string/blank? input))
-          (recur (handler input commands player rooms))
+          (recur (handler input commands player))
           (do
             (println "\n???")
             (recur player)
@@ -52,6 +56,35 @@
   )
 )
 
+(defn spit_rooms
+  [filename rooms]
+  (spit filename "(defn mappu (list\n\n")
+  (loop [stuff rooms]
+    (if (not (empty? stuff))
+      (do
+        (spit filename (str (nth stuff 0) "\n\n") :append true)
+        (recur (drop 1 stuff))
+      )
+      (spit filename "))" :append true)
+    )
+  )
+)
+
+(defn begin 
+  "Begins the game with a randomly generated map"
+  [room_total]
+  (let [
+          filename "recent_map.clj" 
+          new_player (link_player_room
+                        (assoc plyr :rooms (nth (gen_map room_total) 0))
+                      4
+                      )
+        ]
+    (spit_rooms filename
+      (:rooms (gather_input new_player))
+    )
+   )
+) 
 
 
 (defn -main
@@ -62,24 +95,9 @@
     (do
       (let [new_player (assoc plyr :rooms (nth (gen_map 500) 0))]
         (let [newest_player (link_player_room new_player 4)]
-        (spit filename "(def mappu (list\n")
-          (loop [stuff (:rooms newest_player)]
-            (if (not (empty? stuff))
-              (do
-                (spit filename (str (nth stuff 0) "\n\n") :append true)
-                (recur (drop 1 stuff)))
-              (spit filename "))" :append true)
-            )
-          )
+          (spit_rooms filename (:rooms newest_player))
         )
       )
     )
   )
-;  (gather_input)
-  ; (let [info (gen_map 4)]
-  ;   (do 
-  ;     (println info)
-  ;     (println (map_linker (nth info 0) (nth info 1)))
-  ;   )
-;  )
 )
