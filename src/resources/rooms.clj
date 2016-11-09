@@ -341,14 +341,15 @@
   (filter #(empty? (:exits %)) rooms)
 )
 
-(defn link_player_room1
-  [player rooms]
-  (let [room1 (rand-nth (no_exits rooms))]
-    ;(let [new_rooms1 (remove_room rooms (:id room1))]
-    (let [player_loc (find_room rooms (:location (:player player)))]
-      (hash-map
-        :player player
-        :rooms (link_two_way rooms (:id player_loc) (:id room1))
+(defn link_player_room
+  [player]
+  (let [rooms (:rooms player)]
+    (let [room1 (rand-nth (no_exits rooms))]
+      ;(let [new_rooms1 (remove_room rooms (:id room1))]
+      (let [player_loc (find_room rooms (:location (:player player)))]
+        (assoc player
+          :rooms (link_two_way rooms (:id player_loc) (:id room1))
+        )
       )
     )
   )
