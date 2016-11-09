@@ -2,6 +2,7 @@
   (:require [resources.rooms :refer :all])
 )
 (declare commands)
+(declare mappu)
 
 (defn search_command_name
   [command commands]
@@ -13,20 +14,24 @@
 )
 
 (defn halp 
-    "Displays help information about a specific command or just displays all commands"
-    [command player rooms]
+  "Displays help information about a specific command or just displays all commands"
+  [command player rooms]
   (if (= command "")
-    (println "User commands: enter, look, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, unlock, look, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
     )
   )
-  player
+  (hash-map
+    :player player
+    :rooms rooms
+  )
 )
 
-(defn grab_room [player rooms]
-    (nth (filter #(= (:id %) (:location player) ) rooms) 0)
+(defn grab_room 
+  [player rooms]
+  (nth (filter #(= (:id %) (:location player) ) rooms) 0)
 )
 
 (defn find_exits_hash
@@ -53,34 +58,96 @@
 )
 
 (defn enter
-    "Moves the player into the room"
-    [args player rooms]
-    (let [result 
-          (filter 
-            #(
-              = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
-             ) 
-             (grab_exits player rooms)
-          )
-        ]
-      (if (not (empty? result))
-        (if (not (:locked result))
-          (do 
-            (println (str "Entered " args " !"))
-            (println (str "\n" (:description (nth result 0))))
-            (assoc player :location (:id (nth result 0)))
-          )
-          (do
-            (println (str args " is locked!"))
-            player
+  "Moves the player into the room"
+  [args player rooms]
+  (let [result 
+        (filter 
+          #(
+            = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
+           ) 
+           (grab_exits player rooms)
+        )
+      ]
+    (if (not (empty? result))
+      (if (not (:locked result))
+        (do 
+          (println (str "Entered " args " !"))
+          (println (str "\n" (:description (nth result 0))))
+          (hash-map 
+            :player (assoc player :location (:id (nth result 0)))
+            :rooms rooms
           )
         )
         (do
-          (println (str "There is no exit: " args "!"))
-          player
+          (println (str args " is locked!"))
+          (print "Would you like to unlock the room? (y/N): ")
+          (flush)
+          (let [answer (read-line)]
+            (if (= (clojure.string/lower-case answer) "y")
+              (do
+                (let [new_data(unlock_room args player rooms)]
+                  (enter args (:player new_data) (:rooms new_data))
+                )
+              )
+              (do
+                (println "Did not unlock!")
+                (hash-map
+                  :player player
+                  :rooms rooms
+                )
+              )
+            )
+          )
+        )
+      (do
+        (println (str "There is no exit: " args "!"))
+        (hash-map
+          :player player
+          :rooms rooms
         )
       )
     )
+  )
+)
+
+(defn unlock
+  [room]
+  (assoc room :locked false)
+)
+
+(defn unlock_room
+  "Allows the player to unlock a room"
+  [args player rooms]
+  (let [result 
+        (filter 
+          #(
+            = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
+           ) 
+           (grab_exits player rooms)
+        )
+      ]
+    (if (not (:locked result))
+      (do
+        (println "Room is already unlocked!")
+        (hash-map :player player :rooms rooms)
+      )
+      (if (> (:keys player) 0)
+        (do
+          (println (str "Unlocked " args "!"))
+          (let [unlocked (unlock results)]
+            (hash-map
+              :player (assoc player :keys (- (:keys player) 1))
+              :rooms (conj (drop-item rooms result) unlocked)
+            )
+          )
+        )
+        (do 
+          (println "Out of keys!")
+          (hash-map :player player :rooms rooms)
+        )
+      )
+    )
+  )
 )
 
 (defn look 
@@ -101,7 +168,10 @@
         )
       )
     )
-  player
+  (hash-map
+    :player player
+    :rooms rooms
+  )
 )
       
 
@@ -120,7 +190,10 @@
         (println "Goodbye!")
         (System/exit 0)
       )
-      player
+      (hash-map
+        :player player
+        :rooms rooms
+      )
     )
   )
 )
@@ -131,6 +204,11 @@
               :name "enter" 
               :description "User types \"enter room\" to move into the room only if the new room is attached to current room."
               :fn enter  
+          )
+          (hash-map
+              :name "unlock"
+              :description "User types \"unlock room\" to unlock the room only if the player has enough keys."
+              :fn unlock_room
           )
           (hash-map 
               :name "look" 
@@ -151,5 +229,11 @@
 )
 
 (def plyr 
-    (hash-map :location 1)
+  (hash-map
+    :player (hash-map 
+              :location 1
+              :keys 25
+            )
+    :rooms mappu
+  )
 )
