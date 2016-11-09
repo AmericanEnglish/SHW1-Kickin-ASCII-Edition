@@ -61,14 +61,15 @@
   (let [filename "main_mappu.clj"]
     (do
       (let [new_player (assoc plyr :rooms (nth (gen_map 500) 0))]
-        (link_player_room new_player)
+        (let [newest_player (link_player_room new_player 4)]
         (spit filename "(def mappu (list\n")
-        (loop [stuff (:rooms new_player)]
-          (if (not (empty? stuff))
-            (do
-              (spit filename (str (nth stuff 0) "\n\n") :append true)
-              (recur (drop 1 stuff)))
-            (spit filename "))" :append true)
+          (loop [stuff (:rooms newest_player)]
+            (if (not (empty? stuff))
+              (do
+                (spit filename (str (nth stuff 0) "\n\n") :append true)
+                (recur (drop 1 stuff)))
+              (spit filename "))" :append true)
+            )
           )
         )
       )
