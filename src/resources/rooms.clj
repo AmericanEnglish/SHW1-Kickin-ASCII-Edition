@@ -342,14 +342,17 @@
 )
 
 (defn link_player_room
-  [player]
-  (let [rooms (:rooms player)]
-    (let [room1 (rand-nth (no_exits rooms))]
-      ;(let [new_rooms1 (remove_room rooms (:id room1))]
-      (let [player_loc (find_room rooms (:location (:player player)))]
-        (assoc player
-          :rooms (link_two_way rooms (:id player_loc) (:id room1))
+  [player total]
+  (let [location (:location (:player player))]
+    (loop [remaining total rooms (:rooms player)]
+;    (let [rooms (:rooms player)]
+      (if (> remaining 0)
+        (recur (- remaining 1) 
+          (let [room1 (rand-nth (no_exits (remove_room rooms 1)))]
+            (link_two_way rooms location (:id room1))
+          )
         )
+        (assoc player :rooms rooms)
       )
     )
   )
