@@ -57,6 +57,46 @@
   )
 )
 
+(defn unlock
+  [room]
+  (assoc room :locked false)
+)
+
+(defn unlock_room
+  "Allows the player to unlock a room"
+  [args player rooms]
+  (let [result 
+        (filter 
+          #(
+            = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
+           ) 
+           (grab_exits player rooms)
+        )
+      ]
+    (if (not (:locked result))
+      (do
+        (println "Room is already unlocked!")
+        (hash-map :player player :rooms rooms)
+      )
+      (if (> (:keys player) 0)
+        (do
+          (println (str "Unlocked " args "!"))
+          (let [unlocked (unlock result)]
+            (hash-map
+              :player (assoc player :keys (- (:keys player) 1))
+              :rooms (conj (drop-item rooms result) unlocked)
+            )
+          )
+        )
+        (do 
+          (println "Out of keys!")
+          (hash-map :player player :rooms rooms)
+        )
+      )
+    )
+  )
+)
+
 (defn enter
   "Moves the player into the room"
   [args player rooms]
@@ -111,45 +151,7 @@
   )
 )
 
-(defn unlock
-  [room]
-  (assoc room :locked false)
-)
 
-(defn unlock_room
-  "Allows the player to unlock a room"
-  [args player rooms]
-  (let [result 
-        (filter 
-          #(
-            = (clojure.string/lower-case (:name %)) (clojure.string/lower-case args)
-           ) 
-           (grab_exits player rooms)
-        )
-      ]
-    (if (not (:locked result))
-      (do
-        (println "Room is already unlocked!")
-        (hash-map :player player :rooms rooms)
-      )
-      (if (> (:keys player) 0)
-        (do
-          (println (str "Unlocked " args "!"))
-          (let [unlocked (unlock results)]
-            (hash-map
-              :player (assoc player :keys (- (:keys player) 1))
-              :rooms (conj (drop-item rooms result) unlocked)
-            )
-          )
-        )
-        (do 
-          (println "Out of keys!")
-          (hash-map :player player :rooms rooms)
-        )
-      )
-    )
-  )
-)
 
 (defn look 
     "Allows player to look around a room"
