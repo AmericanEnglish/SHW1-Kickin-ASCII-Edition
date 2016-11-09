@@ -237,6 +237,6 @@
               :location 1
               :keys 25
             )
-    :rooms mappu
+    :rooms nil
   )
 )
