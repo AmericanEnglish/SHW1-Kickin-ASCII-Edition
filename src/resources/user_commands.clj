@@ -85,7 +85,7 @@
           (let [answer (read-line)]
             (if (= (clojure.string/lower-case answer) "y")
               (do
-                (let [new_data(unlock_room args player rooms)]
+                (let [new_data (unlock_room args player rooms)]
                   (enter args (:player new_data) (:rooms new_data))
                 )
               )
