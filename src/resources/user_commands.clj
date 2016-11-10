@@ -73,25 +73,31 @@
            (grab_exits player rooms)
         )
       ]
-    (if (not (:locked result))
-      (do
-        (println "Room is already unlocked!")
-        (hash-map :player player :rooms rooms)
-      )
-      (if (> (:keys player) 0)
+    (if (not (empty? result))
+      (if (not (:locked (nth result 0)))
         (do
-          (println (str "Unlocked " args "!"))
-          (let [unlocked (unlock result)]
-            (hash-map
-              :player (assoc player :keys (- (:keys player) 1))
-              :rooms (conj (drop-item rooms result) unlocked)
-            )
-          )
-        )
-        (do 
-          (println "Out of keys!")
+          (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
+        (if (> (:keys player) 0)
+          (do
+            (println (str "Unlocked " args "!"))
+            (let [unlocked (unlock (nth result 0))]
+              (hash-map
+                :player (assoc player :keys (- (:keys player) 1))
+                :rooms (conj (drop-item rooms result) unlocked)
+              )
+            )
+          )
+          (do 
+            (println "Out of keys!")
+            (hash-map :player player :rooms rooms)
+          )
+        )
+      )
+      (do
+        (println "You cannot unlock that which does not exist!")
+        (hash-map :player player :rooms rooms)
       )
     )
   )
@@ -109,7 +115,7 @@
         )
       ]
     (if (not (empty? result))
-      (if (not (:locked result))
+      (if (not (:locked (nth result 0)))
         (do 
           (let [newplayer (assoc player :location (:id (nth result 0)))]
             (println (str "Entered " args " !"))

@@ -26,7 +26,7 @@
         ((:fn result) (clojure.string/join " " (drop 1 parsed)) player rooms)
         (do
           (println "Command not found!")
-          player
+          user
         )
       )
     )
