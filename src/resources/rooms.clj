@@ -114,7 +114,7 @@
     (list
     	(hash-map
         :id room_id
-        :name (str (:type sub) (:basename template))
+        :name (str (:type sub) " " (:basename template))
         :description (:description sub)
         :exits (vector)
       )
