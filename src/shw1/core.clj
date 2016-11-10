@@ -91,13 +91,15 @@
   "Gets the program going! Without where would we be?"
   [& args]
   (println "Hello! ARE YOU READY?")
-  (let [filename "main_mappu.clj"]
-    (do
-      (let [new_player (assoc plyr :rooms (nth (gen_map 500) 0))]
-        (let [newest_player (link_player_room new_player 4)]
-          (spit_rooms filename (:rooms newest_player))
-        )
-      )
-    )
-  )
+  (begin 500)
 )
+;   (let [filename "main_mappu.clj"]
+;     (do
+;       (let [new_player (assoc plyr :rooms (nth (gen_map 500) 0))]
+;         (let [newest_player (link_player_room new_player 4)]
+;           (spit_rooms filename (:rooms newest_player))
+;         )
+;       )
+;     )
+;   )
+; )

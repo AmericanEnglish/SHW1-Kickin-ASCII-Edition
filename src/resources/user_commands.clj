@@ -35,9 +35,9 @@
 )
 
 (defn find_exits_hash
-  [rooms]
-  (let [room_ints (map (:id rooms))]
-    (loop [cur_rooms room_ints room_maps []]
+  [exits rooms]
+  ; (let [room_ints (map (:id rooms))]
+    (loop [cur_rooms exits room_maps []]
       (if (empty? cur_rooms)
         room_maps
         (recur (drop 1 cur_rooms) ; One room has been filtered for
@@ -47,13 +47,13 @@
         )
       )
     )
-  )
+  ; )
 )
 
 (defn grab_exits
   [player rooms]
   (find_exits_hash 
-    (:exits (grab_room player rooms))
+    (:exits (grab_room player rooms)) rooms
   )
 )
 
@@ -111,11 +111,16 @@
     (if (not (empty? result))
       (if (not (:locked result))
         (do 
-          (println (str "Entered " args " !"))
-          (println (str "\n" (:description (nth result 0))))
-          (hash-map 
-            :player (assoc player :location (:id (nth result 0)))
-            :rooms rooms
+          (let [newplayer (assoc player :location (:id (nth result 0)))]
+            (println (str "Entered " args " !"))
+            (println (str "\n" (:description (nth result 0))))
+            (if (> (count (grab_exits newplayer rooms)) 1)
+              (hash-map 
+                :player newplayer
+                :rooms rooms 
+              )
+              (link_player_room (hash-map :player newplayer :rooms rooms) 3)
+            )
           )
         )
         (do
@@ -166,7 +171,8 @@
     (loop [res (map :name (grab_exits player rooms))]
       (if (not (empty? res))
         (do
-          (println (nth res 0))
+          ; (println (nth res 0))
+          (println res)
           (recur (drop 1 res))
         )
       )
