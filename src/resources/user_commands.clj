@@ -104,7 +104,7 @@
 )
 
 (defn enter
-  "Moves the player into the room"
+  "Allows the player enter the room"
   [args player rooms]
   (let [result 
         (filter 
@@ -165,29 +165,38 @@
 
 
 (defn look 
-    "Allows player to look around a room"
-    [args player rooms]
-    (let [cur_room (grab_room player rooms)]
+  "Allows player to look around a room"
+  [args player rooms]
+  (let [cur_room (grab_room player rooms)]
+    (do
+      (println (str "* " (:name cur_room)))
+      (println (str "=> " (:description cur_room)))
+    )
+  )
+  (println "*Exits:")
+  (loop [res (map :name (grab_exits player rooms))]
+    (if (not (empty? res))
       (do
-        (println (str "* " (:name cur_room)))
-        (println (str "=> " (:description cur_room)))
+        (println (str "+ "(nth res 0)))
+        (recur (drop 1 res))
       )
     )
-    (println "*Exits:")
-    (loop [res (map :name (grab_exits player rooms))]
-      (if (not (empty? res))
-        (do
-          (println (str "+ "(nth res 0)))
-          (recur (drop 1 res))
-        )
-      )
-    )
+  )
   (hash-map
     :player player
     :rooms rooms
   )
 )
-      
+
+(defn inventory
+  "Allows the player to view their inventory"
+  [args player rooms]
+  (println (str "Keys remaining: " (:keys player)))
+  (hash-map
+    :player player
+    :rooms rooms
+  )
+)  
 
 
 
@@ -228,6 +237,11 @@
               :name "look" 
               :description "User types \"look\" with no arguments to display current room information."
               :fn look
+          )
+          (hash-map
+              :name "inventory"
+              :description "User types \"inventory\" with no arguments to display the inventory of the player."
+              :fn inventory
           )
           (hash-map 
               :name "halp" 
