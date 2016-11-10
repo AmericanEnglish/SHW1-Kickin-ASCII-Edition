@@ -17,7 +17,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, unlock, look, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, unlock, look, inventory, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
