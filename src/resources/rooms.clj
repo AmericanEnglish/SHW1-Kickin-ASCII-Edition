@@ -117,6 +117,7 @@
         :name (str (:type sub) " " (:basename template))
         :description (:description sub)
         :exits (vector)
+        :locked true
       )
     	(repeat (:total_exits sub) room_id)
     )
