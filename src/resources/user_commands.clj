@@ -171,8 +171,7 @@
     (loop [res (map :name (grab_exits player rooms))]
       (if (not (empty? res))
         (do
-          ; (println (nth res 0))
-          (println res)
+          (println (nth res 0))
           (recur (drop 1 res))
         )
       )

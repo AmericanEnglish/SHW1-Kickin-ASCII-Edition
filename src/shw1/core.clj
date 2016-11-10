@@ -19,7 +19,7 @@
   (let [
         parsed (sanitize_input input) 
         player (:player user) 
-        rooms (:rooms player)
+        rooms  (:rooms  user)
       ]
     (let [result (search_command_name (nth parsed 0) commands)]
       (if (not (empty? result))
