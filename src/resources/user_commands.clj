@@ -163,15 +163,15 @@
     [args player rooms]
     (let [cur_room (grab_room player rooms)]
       (do
-        (println (:name cur_room))
-        (println (:description cur_room))
+        (println (str "* " (:name cur_room)))
+        (println (str "=> " (:description cur_room)))
       )
     )
-    (println "Exits:")
+    (println "*Exits:")
     (loop [res (map :name (grab_exits player rooms))]
       (if (not (empty? res))
         (do
-          (println (nth res 0))
+          (println (str "+ "(nth res 0)))
           (recur (drop 1 res))
         )
       )
