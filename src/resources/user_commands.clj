@@ -62,6 +62,11 @@
   (assoc room :locked false)
 )
 
+(defn update_pack
+  [current_pack old_item updated_item]
+  (conj (drop-item current_pack old_item) updated_item)
+)
+
 (defn unlock_room
   "Allows the player to unlock a room"
   [args player rooms]
@@ -79,21 +84,27 @@
           (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
-        (if (> (:keyz (nth (:pack player) 0)) 0)
-          (do
-            (println (str "Unlocked " args "!"))
-            (let [unlocked (unlock (nth result 0))]
-              (let [pack (nth (:pack player) 0)]
-                (hash-map
-                  :player (assoc player :pack (update_pack (:pack player) pack ()))
-                  :rooms (conj (drop-item rooms result) unlocked)
+        (let [keyz (filter #(= "keyz" (:name %)) (:pack player))]
+          (if (> (:amount keyz) 0)
+            (do
+              (println (str "Unlocked " args "!"))
+              (let [unlocked (unlock (nth result 0))]
+                (let [pack (nth (:pack player) 0)]
+                  (hash-map
+                    :player 
+                      (assoc player :pack 
+                             (update_pack (:pack player) 
+                                          keyz 
+                                          (assoc keyz :amount (- (:amount keyz) 1))))
+                    :rooms (conj (drop-item rooms result) unlocked)
+                  )
                 )
               )
             )
-          )
-          (do 
-            (println "Out of keyz!")
-            (hash-map :player player :rooms rooms)
+            (do 
+              (println "Out of keyz!")
+              (hash-map :player player :rooms rooms)
+            )
           )
         )
       )
@@ -190,10 +201,6 @@
   )
 )
 
-(defn update_pack
-  [current_pack old_item updated_item]
-  (conj (drop-item current_pack old_item) updated_item)
-)
 
 (defn pack
   "Allows the player to view their inventory"
