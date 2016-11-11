@@ -85,7 +85,7 @@
             (let [unlocked (unlock (nth result 0))]
               (let [pack (nth (:pack player) 0)]
                 (hash-map
-                  :player (assoc player :pack (conj (:pack player) (assoc pack :keys (- (:keys pack) 1))))
+                  :player (assoc player :pack (update_pack (:pack player) pack (- (:keys pack) 1)))
                   :rooms (conj (drop-item rooms result) unlocked)
                 )
               )
@@ -188,6 +188,11 @@
     :player player
     :rooms rooms
   )
+)
+
+(defn update_pack
+  [current_pack old_item updated_item]
+  (conj (drop-item current_pack old_item) updated_item)
 )
 
 (defn pack
