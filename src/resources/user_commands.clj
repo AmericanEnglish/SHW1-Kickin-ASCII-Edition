@@ -17,7 +17,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, unlock, look, inventory, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, unlock, look, pack, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -79,13 +79,15 @@
           (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
-        (if (> (:keys player) 0)
+        (if (> (:keys (nth (:pack player) 0)) 0)
           (do
             (println (str "Unlocked " args "!"))
             (let [unlocked (unlock (nth result 0))]
-              (hash-map
-                :player (assoc player :keys (- (:keys player) 1))
-                :rooms (conj (drop-item rooms result) unlocked)
+              (let [pack (nth (:pack player) 0)]
+                (hash-map
+                  :player (assoc player :pack (conj (:pack player) (assoc pack :keys (- (:keys pack) 1))))
+                  :rooms (conj (drop-item rooms result) unlocked)
+                )
               )
             )
           )
@@ -188,10 +190,10 @@
   )
 )
 
-(defn inventory
+(defn pack
   "Allows the player to view their inventory"
   [args player rooms]
-  (println (str "Keys remaining: " (:keys player)))
+  (println (str "Keys remaining: " (:keys (nth (:pack player) 0))))
   (hash-map
     :player player
     :rooms rooms
@@ -220,6 +222,7 @@
     )
   )
 )
+
 ;We can place other user command functions in this file to stay organized.
 
 (def commands
@@ -239,9 +242,9 @@
               :fn look
           )
           (hash-map
-              :name "inventory"
-              :description "User types \"inventory\" with no arguments to display the inventory of the player."
-              :fn inventory
+              :name "pack"
+              :description "User types \"pack\" with no arguments to display the inventory of the player."
+              :fn pack
           )
           (hash-map 
               :name "halp" 
@@ -260,7 +263,13 @@
   (hash-map
     :player (hash-map 
               :location 1
-              :keys 25
+              :pack (list
+                      (hash-map
+                        :keys 25 ; need a new name for keys. keys is currently a built in.
+                        ; ideal to have :name "name" :ammount int ...ect
+                      )
+
+                    )
             )
     :rooms nil
   )
