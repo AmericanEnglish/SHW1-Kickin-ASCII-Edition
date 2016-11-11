@@ -79,20 +79,20 @@
           (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
-        (if (> (:keys (nth (:pack player) 0)) 0)
+        (if (> (:keyz (nth (:pack player) 0)) 0)
           (do
             (println (str "Unlocked " args "!"))
             (let [unlocked (unlock (nth result 0))]
               (let [pack (nth (:pack player) 0)]
                 (hash-map
-                  :player (assoc player :pack (update_pack (:pack player) pack (- (:keys pack) 1)))
+                  :player (assoc player :pack (update_pack (:pack player) pack ()))
                   :rooms (conj (drop-item rooms result) unlocked)
                 )
               )
             )
           )
           (do 
-            (println "Out of keys!")
+            (println "Out of keyz!")
             (hash-map :player player :rooms rooms)
           )
         )
@@ -198,7 +198,7 @@
 (defn pack
   "Allows the player to view their inventory"
   [args player rooms]
-  (println (str "Keys remaining: " (:keys (nth (:pack player) 0))))
+  (println (str "keyz remaining: " (:keyz (nth (:pack player) 0))))
   (hash-map
     :player player
     :rooms rooms
@@ -238,7 +238,7 @@
           )
           (hash-map
               :name "unlock"
-              :description "User types \"unlock room\" to unlock the room only if the player has enough keys."
+              :description "User types \"unlock room\" to unlock the room only if the player has enough keyz."
               :fn unlock_room
           )
           (hash-map 
@@ -270,10 +270,9 @@
               :location 1
               :pack (list
                       (hash-map
-                        :keys 25 ; need a new name for keys. keys is currently a built in.
-                        ; ideal to have :name "name" :ammount int ...ect
+                        :name "keyz"
+                        :amount 25
                       )
-
                     )
             )
     :rooms nil
