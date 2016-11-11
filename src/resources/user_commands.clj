@@ -50,6 +50,12 @@
   ; )
 )
 
+(defn isolate_keys
+  "Given the pack, will find yo keyz"
+  [pack]
+  (nth (filterv #(= "keyz" (:name %)) pack) 0)
+)
+
 (defn grab_exits
   [player rooms]
   (find_exits_hash 
@@ -84,7 +90,7 @@
           (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
-        (let [keyz (filter #(= "keyz" (:name %)) (:pack player))]
+        (let [keyz (isolate_keys (:pack player))]
           (if (> (:amount keyz) 0)
             (do
               (println (str "Unlocked " args "!"))
@@ -205,7 +211,7 @@
 (defn pack
   "Allows the player to view their inventory"
   [args player rooms]
-  (println (str "keyz remaining: " (:keyz (nth (:pack player) 0))))
+  (println (str "Keys remaining: " (:amount (isolate_keys (:pack player)))))
   (hash-map
     :player player
     :rooms rooms
