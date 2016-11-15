@@ -17,7 +17,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, unlock, look, pack, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, see, unlock, look, pack, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -50,11 +50,23 @@
   ; )
 )
 
-(defn isolate_keys
-  "Given the pack, will find yo keyz"
-  [pack]
-  (nth (filterv #(= "keyz" (:name %)) pack) 0)
+;(defn isolate_keys
+;  "Given the pack, will find yo keyz"
+;  [pack]
+;  (nth (filterv #(= "keyz" (:name %)) pack) 0)
+;)
+
+(defn grab_item 
+  "isolates an item for use by other function. Takes the pack and a string. Returns a hash-map"
+  [backpack args]
+  (let [res (filter #(= args (:name %)) backpack)]
+    (if (empty? res)
+      (hash-map)
+      (nth res 0)
+    )
+  )   
 )
+
 
 (defn grab_exits
   [player rooms]
@@ -121,6 +133,8 @@
     )
   )
 )
+
+
 
 (defn enter
   "Allows the player enter the room"
@@ -211,23 +225,14 @@
 (defn pack
   "Allows the player to view their inventory"
   [args player rooms]
-  (println (str "TMP remaining: " (:amount (isolate_keys (:pack player)))))
+  (let [fireaxe (grab_item (:pack player) "Fireaxe")]
+    (println (str (:amount item) " " (:verb item "Fireaxe")
+                  " remaining")))
   (hash-map
     :player player
     :rooms rooms
   )
 )  
-
-(defn grab_item 
-  "isolates an item for use by other function. Takes the pack and a string. Returns a hash-map"
-  [backpack args]
-  (let [res (filter #(= args (:name %)) backpack)]
-    (if (empty? res)
-      (hash-map)
-      (nth res 0)
-    )
-  )   
-)
 
 (defn see 
   "Allows player to examine item in their pack"
@@ -239,13 +244,13 @@
           (println (str "You retrieve " args " from your bag!"))
           (println (:name item))
           (println (:description item))
-          (println (str "It has about " (:amount item) (:verb item) " remaining."))
+          (println (str "It has about " (:amount item) " " (:verb item) " remaining."))
         )
         (println (str "You search for " args " but can't seem to find it"))
       )
     )
     (do
-      (println "You examine your pack. It's made of a fine rubbery mesh.\nSimilar to rhino skin but without all the murdery poachy parts")
+      (println "You examine your pack. It's made of a fine rubbery mesh.\nSimilar to rhino skin but without all the murdery poachy parts.")
     )
   )
   (hash-map :player player :rooms rooms)
