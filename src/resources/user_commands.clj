@@ -90,7 +90,7 @@
           (println "Room is already unlocked!")
           (hash-map :player player :rooms rooms)
         )
-        (let [keyz (isolate_keys (:pack player))]
+        (let [keyz (grab_item (:pack player) "Fireaxe")]
           (if (> (:amount keyz) 0)
             (do
               (println (str "Unlocked " args "!"))
@@ -108,7 +108,7 @@
               )
             )
             (do 
-              (println "Out of keyz!")
+              (println "Out of swings!")
               (hash-map :player player :rooms rooms)
             )
           )
@@ -221,7 +221,7 @@
 (defn grab_item 
   "isolates an item for use by other function. Takes the pack and a string. Returns a hash-map"
   [backpack args]
-  (let [res (filter #() )]
+  (let [res (filter #(= args (:name %)) backpack)]
     (if (empty? res)
       (hash-map)
       (nth res 0)
@@ -274,10 +274,15 @@
 ;We can place other user command functions in this file to stay organized.
 
 (def commands
-  (list (hash-map 
+  (list (hash-map
               :name "enter" 
               :description "User types \"enter room\" to move into the room only if the new room is attached to current room."
               :fn enter  
+          )
+          (hash-map
+              :name "see"
+              :description "Allows the you to view your pack items with \"see itemname\" ."
+              :fn see
           )
           (hash-map
               :name "unlock"
@@ -313,7 +318,7 @@
               :location 1
               :pack (list
                       (hash-map
-                        :name "Interdimensional Fire Axe"
+                        :name "Fireaxe"
                         :description "You might think it bizzare but in this universe ALL fireaxes are actually comprised of nothing less than actual fire and raven feathers. It's standard issue directly from the Interdimensional Home Explorers Committee."
                                      
                         :verb "potential door murder(s)" 
