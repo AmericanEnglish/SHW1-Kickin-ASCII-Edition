@@ -204,6 +204,16 @@
     (do
       (println (str "* " (:name cur_room)))
       (println (str "=> " (:description cur_room)))
+      (println (str "*Items in " (:name cur_room) ":"))
+      (loop [room_inv (:inventory cur_room)]
+        (if (not (empty? room_inv))
+          (do
+            (println (str "=> " (:name (nth room_inv 0)) 
+                          " {" (:amount (nth room_inv 0)) "}"))
+            (recur (drop 1 room_inv))
+          )
+        )
+      )
     )
   )
   (println "*Exits:")
