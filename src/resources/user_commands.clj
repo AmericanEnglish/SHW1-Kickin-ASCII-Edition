@@ -211,15 +211,45 @@
 (defn pack
   "Allows the player to view their inventory"
   [args player rooms]
-  (println (str "Keys remaining: " (:amount (isolate_keys (:pack player)))))
+  (println (str "TMP remaining: " (:amount (isolate_keys (:pack player)))))
   (hash-map
     :player player
     :rooms rooms
   )
 )  
 
+(defn grab_item 
+  "isolates an item for use by other function. Takes the pack and a string. Returns a hash-map"
+  [backpack args]
+  (let [res (filter #() )]
+    (if (empty? res)
+      (hash-map)
+      (nth res 0)
+    )
+  )   
+)
 
-
+(defn see 
+  "Allows player to examine item in their pack"
+  [args player rooms]
+  (if (not (empty? args))
+    (let [item (grab_item (:pack player) args)]
+      (if (not (empty? item))
+        (do
+          (println (str "You retrieve " args " from your bag!"))
+          (println (:name item))
+          (println (:description item))
+          (println (str "It has about " (:amount item) (:verb item) " remaining."))
+        )
+        (println (str "You search for " args " but can't seem to find it"))
+      )
+    )
+    (do
+      (println "You examine your pack. It's made of a fine rubbery mesh.\nSimilar to rhino skin but without all the murdery poachy parts")
+    )
+  )
+  (hash-map :player player :rooms rooms)
+)
 
 (defn quit
   "Allows the user to end the game."
@@ -283,7 +313,10 @@
               :location 1
               :pack (list
                       (hash-map
-                        :name "keyz"
+                        :name "Interdimensional Fire Axe"
+                        :description "You might think it bizzare but in this universe ALL fireaxes are actually comprised of nothing less than actual fire and raven feathers. It's standard issue directly from the Interdimensional Home Explorers Committee."
+                                     
+                        :verb "potential door murder(s)" 
                         :amount 25
                       )
                     )
