@@ -90,7 +90,8 @@
 (defn -main
   "Gets the program going! Without where would we be?"
   [& args]
-  (println "Hello! ARE YOU READY?")
+  (println (slurp "house.txt"))
+;  (println "Hello! ARE YOU READY?")
   (begin 500)
 )
 ;   (let [filename "main_mappu.clj"]
