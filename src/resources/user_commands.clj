@@ -105,7 +105,7 @@
         (let [keyz (grab_item (:pack player) "Fireaxe")]
           (if (> (:amount keyz) 0)
             (do
-              (println (str "Unlocked " args "!"))
+              (println (str "With a swift axe blade you forcibly \"unlocked\" " args "!"))
               (let [unlocked (unlock (nth result 0))]
                 (let [pack (nth (:pack player) 0)]
                   (hash-map
@@ -226,8 +226,20 @@
   "Allows the player to view their inventory"
   [args player rooms]
   (let [fireaxe (grab_item (:pack player) "Fireaxe")]
-    (println (str (:amount item) " " (:verb item "Fireaxe")
-                  " remaining")))
+    (println (str (:amount fireaxe) " " (:verb fireaxe "Fireaxe")
+                  " remaining")
+    )
+  )
+  (println "*Items in pack:")
+  (loop [backpack (:pack player)]
+    (if (not (empty? backpack))
+      (do
+        (println (str "=] " (:name (nth backpack 0)) 
+                      " {" (:amount (nth backpack 0)) "}"))
+        (recur (drop 1 backpack))
+      )
+    )
+  )
   (hash-map
     :player player
     :rooms rooms
@@ -325,7 +337,7 @@
                       (hash-map
                         :name "Fireaxe"
                         :description "You might think it bizzare but in this universe ALL fireaxes are actually comprised of nothing less than actual fire and raven feathers. It's standard issue directly from the Interdimensional Home Explorers Committee."
-                                     
+
                         :verb "potential door murder(s)" 
                         :amount 25
                       )
@@ -333,4 +345,12 @@
             )
     :rooms nil
   )
+)
+
+(def unlocking_quips [
+    "Carefully you take at the door.\nSwiftly you bring the axe above your head.\nAggressively you begin hacking the door down till it's nothing more than paper shavings.\nWell done?"
+    "Across the room, BAM, you see it! That door. The most menacing door to ever be shut.\nHow dare it deny you entry like you're some sort of\nCOMMONER\nNO YOU WILL NOT HAVE!\nYou dig the fireaxe deep into it door flesh cackling widly."
+    "You chop the door down like a civil person. Obviously."
+    "The last door you'll ever chop. Unless . . .  you do it again I guess."
+    ]
 )
