@@ -2,7 +2,6 @@
   (:require [resources.rooms :refer :all])
 )
 (declare commands)
-(declare mappu)
 
 (defn search_command_name
   [command commands]
@@ -17,7 +16,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, see, unlock, look, david, pack, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, see, unlock, look, get, pack, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -410,7 +409,7 @@
           )
           (hash-map
               :name "get"
-              :description "User types \"david item\" to pick up items, mostly rocks..."
+              :description "User types \"get item\" to pick up items, mostly rocks..."
               :fn obtain
           )
   )
