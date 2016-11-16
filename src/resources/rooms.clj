@@ -1,5 +1,6 @@
 (ns resources.rooms
   (:require [resources.room-templates :refer :all])
+  (:require [resources.item-templates :refer :all])
 )
 
 ;(declare rooms)
@@ -106,6 +107,21 @@
     )
   )
 )
+
+(defn gen_items
+  "Generates an item given all item template"
+  [all_templates]
+  (let [item (rand-nth all_templates)]
+    (list
+      (hash-map
+        :name (:name item)
+        :description (:description item)
+        :verb (:verb item)
+        :amount (:amount item)
+      )
+    )
+  )
+)
   
 (defn gen_room 
   "Generates a room given an room template, and a room ID"
@@ -116,6 +132,7 @@
         :id room_id
         :name (str (:type sub) " " (:basename template))
         :description (:description sub)
+        :inventory (gen_items items)
         :exits (vector)
         :locked (not (= room_id 1))
       )
