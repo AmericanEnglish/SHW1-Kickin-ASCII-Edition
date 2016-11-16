@@ -347,24 +347,24 @@
   (if (empty? args)
     (do 
       (println "You grasp at the air desperately shoving it your pack.\nThis dimension has not been kind to you.")
-      (hash-map :player player :rooms room)
+      (hash-map :player player :rooms rooms)
     )
-  )
-  (let [current_room (grab_room player rooms)]
-    (let [item (grab_item (:inventory current_room) args)]
-      (if (not (empty? item))
-        (let [new_room (remove_from_room current_room item)]
-          (do
-            (println (str "You shove " args " into your backpack."))
-            (hash-map
-              :player  (assoc player :pack (add_to_pack (:pack player) item))
-              :rooms (conj (drop-item rooms current_room) new_room)
+    (let [current_room (grab_room player rooms)]
+      (let [item (grab_item (:inventory current_room) args)]
+        (if (not (empty? item))
+          (let [new_room (remove_from_room current_room item)]
+            (do
+              (println (str "You shove " args " into your backpack."))
+              (hash-map
+                :player  (assoc player :pack (add_to_pack (:pack player) item))
+                :rooms (conj (drop-item rooms current_room) new_room)
+              )
             )
           )
-        )
-        (do
-          (println (str "You search for " args " but cannot find it"))
-          (hash-map :player player :rooms rooms)
+          (do
+            (println (str "You search for " args " but cannot find it"))
+            (hash-map :player player :rooms rooms)
+          )
         )
       )
     )
