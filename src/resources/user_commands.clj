@@ -59,7 +59,7 @@
 (defn grab_item 
   "isolates an item for use by other function. Takes the pack and a string. Returns a hash-map"
   [backpack args]
-  (let [res (filter #(= args (:name %)) backpack)]
+  (let [res (filter #(= (clojure.string/lower-case args) (clojure.string/lower-case (:name %))) backpack)]
     (if (empty? res)
       (hash-map)
       (nth res 0)
@@ -410,7 +410,7 @@
           )
           (hash-map
               :name "get"
-              :description "User types \"david item\" to pick up items, mostly rocks..."
+              :description "User types \"get item\" to pick up items, mostly rocks..."
               :fn obtain
           )
   )
