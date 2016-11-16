@@ -376,8 +376,8 @@
   )
 )
 
-(defn gen_rooms
-  ""
+(defn gen_map
+  "Generates a map given total number of rooms."
   [maximum]
       (loop [rooms (list) bucket (list) cur 1]
           (if (> cur maximum)
@@ -391,11 +391,5 @@
             )
           )
       )
-)
-
-(defn gen_map
-    "Generates a map given no arguments. Yet."
-    [maximum]
-    (gen_rooms maximum)
 )
 
