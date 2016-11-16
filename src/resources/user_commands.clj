@@ -346,7 +346,7 @@
   [args player rooms]
   (if (empty? args)
     (do 
-      (println "You grasp at the air desperately shoving it your pack.\nThis dimension has not been kind to you.")
+      (println "You grasp at the air desperately shoving it in your pack.\nThis dimension has not been kind to you.")
       (hash-map :player player :rooms rooms)
     )
     (let [current_room (grab_room player rooms)]
