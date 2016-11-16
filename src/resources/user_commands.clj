@@ -316,6 +316,54 @@
   )
 )
 
+(defn add_to_pack
+  "Adds an item to a pack"
+  [backpack item]
+  (conj backpack item)
+)
+
+(defn remove_from_pack
+  "Removes an item from a pack"
+  [backpack item]  
+  (drop-item backpack item)
+)
+
+(defn remove_from_room
+  "Removes an item from the room"
+  [room item]
+  (assoc room :inventory (remove_from_pack (:inventory room) item))
+)
+
+(defn add_to_room
+  "Adds an item to the room"
+  [room item]
+  (assoc room :inventory (add_to_pack (:inventory room) item))
+)
+
+
+(defn obtain 
+  "Grabs an item from a room"
+  [args player rooms]
+  (let [current_room (grab_room player rooms)]
+    (let [item (grab_item (:inventory current_room) args)]
+      (if (not (empty? item))
+        (let [new_room (remove_from_room current_room item)]
+          (do
+            (println (str "You shove " args " into your backpack."))
+            (hash-map
+              :player  (assoc player :pack (add_to_pack (:pack player) item))
+              :rooms (conj (drop-item rooms current_room) new_room)
+            )
+          )
+        )
+        (do
+          (println (str "You search for " args " but cannot find it"))
+          (hash-map :player player :rooms rooms)
+        )
+      )
+    )
+  )
+)
 ;We can place other user command functions in this file to stay organized.
 
 (def commands
@@ -355,9 +403,9 @@
               :fn quit
           )
           (hash-map
-              :name "david"
+              :name "get"
               :description "User types \"david item\" to pick up items, mostly rocks..."
-              :fn david
+              :fn obtain
           )
   )
 )

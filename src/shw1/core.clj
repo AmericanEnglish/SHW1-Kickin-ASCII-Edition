@@ -86,7 +86,7 @@
    )
 ) 
 
-(defn splash)
+;(defn splash)
 
 (defn -main
   "Gets the program going! Without where would we be?"
