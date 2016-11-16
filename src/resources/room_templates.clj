@@ -46,7 +46,7 @@
           )
       )
       (hash-map 
-        :basename "foyer"
+        :basename "Foyer"
         :subclass 
           (list 
             (hash-map 
@@ -130,7 +130,7 @@
               :description "A Large Pantry with some expensive herbs and spices.\n This pantry has enough room to keep all of your cooking supplies and a years worth of canned goods.\n Perfect for the Dooms-Day prepper in all of us."
             )
             (hash-map
-              :type "small"
+              :type "Small"
               :total_exits 1
               :description "A Small Pantry with some expensive herbs and spices."
             )
