@@ -354,10 +354,10 @@
               :description "User types \"quit\" with no argument to end the game."
               :fn quit
           )
-                    (hash-map
+          (hash-map
               :name "david"
               :description "User types \"david\" to pick up items, mostly rocks..."
-              :fn quit
+              :fn david
           )
   )
 )
