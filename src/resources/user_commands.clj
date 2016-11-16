@@ -344,6 +344,12 @@
 (defn obtain 
   "Grabs an item from a room"
   [args player rooms]
+  (if (empty? args)
+    (do 
+      (println "You grasp at the air desperately shoving it your pack.\nThis dimension has not been kind to you.")
+      (hash-map :player player :rooms room)
+    )
+  )
   (let [current_room (grab_room player rooms)]
     (let [item (grab_item (:inventory current_room) args)]
       (if (not (empty? item))
