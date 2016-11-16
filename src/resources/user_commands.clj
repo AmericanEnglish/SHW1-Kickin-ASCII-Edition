@@ -17,7 +17,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, see, unlock, look, pack, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, see, unlock, look, david, pack, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -324,6 +324,11 @@
           (hash-map
               :name "quit"
               :description "User types \"quit\" with no argument to end the game."
+              :fn quit
+          )
+                    (hash-map
+              :name "david"
+              :description "User types \"david\" to pick up items, mostly rocks..."
               :fn quit
           )
   )
