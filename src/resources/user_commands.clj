@@ -133,7 +133,39 @@
   )
 )
 
-
+(defn look 
+  "Allows player to look around a room"
+  [args player rooms]
+  (let [cur_room (grab_room player rooms)]
+    (do
+      (println (str "* " (:name cur_room)))
+      (println (str "=> " (:description cur_room)))
+      (println (str "*Items in " (:name cur_room) ":"))
+      (loop [room_inv (:inventory cur_room)]
+        (if (not (empty? room_inv))
+          (do
+            (println (str "=> " (:name (nth room_inv 0)) 
+                          " {" (:amount (nth room_inv 0)) "}"))
+            (recur (drop 1 room_inv))
+          )
+        )
+      )
+    )
+  )
+  (println "*Exits:")
+  (loop [res (map :name (grab_exits player rooms))]
+    (if (not (empty? res))
+      (do
+        (println (str "+ "(nth res 0)))
+        (recur (drop 1 res))
+      )
+    )
+  )
+  (hash-map
+    :player player
+    :rooms rooms
+  )
+)
 
 (defn enter
   "Allows the player enter the room"
@@ -151,31 +183,18 @@
         (do 
           (let [newplayer (assoc player :location (:id (nth result 0)))]
             (println (str "Entered " args " !"))
-            (println (str "\n" (:description (nth result 0))))
-            (loop [room_inv (:inventory (grab_room newplayer rooms))]
-              (if (not (empty? room_inv))
-                (do
-                  (println (str "=> " (:name (nth room_inv 0)) 
-                                " {" (:amount (nth room_inv 0)) "}"))
-                  (recur (drop 1 room_inv))
-                )
-              )
-            )
-            (println "*Exits:")
-            (loop [res (map :name (grab_exits player rooms))]
-              (if (not (empty? res))
-                (do
-                  (println (str "+ "(nth res 0)))
-                  (recur (drop 1 res))
-                )
-              )
-            )
             (if (> (count (grab_exits newplayer rooms)) 1)
               (hash-map 
                 :player newplayer
                 :rooms rooms 
               )
-              (link_player_room (hash-map :player newplayer :rooms rooms) 3)
+              (let [newestplayer (link_player_room (hash-map :player newplayer :rooms rooms) 3)]
+                (look args (:player newestplayer) (:rooms newestplayer))
+                (hash-map
+                  :player (:player newestplayer)
+                  :rooms (:rooms newestplayer)
+                )
+              )
             )
           )
         )
@@ -211,43 +230,6 @@
     )
   )
 )
-
-
-
-(defn look 
-  "Allows player to look around a room"
-  [args player rooms]
-  (let [cur_room (grab_room player rooms)]
-    (do
-      (println (str "* " (:name cur_room)))
-      (println (str "=> " (:description cur_room)))
-      (println (str "*Items in " (:name cur_room) ":"))
-      (loop [room_inv (:inventory cur_room)]
-        (if (not (empty? room_inv))
-          (do
-            (println (str "=> " (:name (nth room_inv 0)) 
-                          " {" (:amount (nth room_inv 0)) "}"))
-            (recur (drop 1 room_inv))
-          )
-        )
-      )
-    )
-  )
-  (println "*Exits:")
-  (loop [res (map :name (grab_exits player rooms))]
-    (if (not (empty? res))
-      (do
-        (println (str "+ "(nth res 0)))
-        (recur (drop 1 res))
-      )
-    )
-  )
-  (hash-map
-    :player player
-    :rooms rooms
-  )
-)
-
 
 (defn pack
   "Allows the player to view their inventory"
