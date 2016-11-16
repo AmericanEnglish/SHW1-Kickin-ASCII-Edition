@@ -326,7 +326,7 @@
           )
           (hash-map
               :name "see"
-              :description "Allows the you to view your pack items with \"see itemname\" ."
+              :description "User types \"see itemname\" to view an item in your pack."
               :fn see
           )
           (hash-map
@@ -356,7 +356,7 @@
           )
           (hash-map
               :name "david"
-              :description "User types \"david\" to pick up items, mostly rocks..."
+              :description "User types \"david item\" to pick up items, mostly rocks..."
               :fn david
           )
   )
