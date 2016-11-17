@@ -56,37 +56,16 @@
   )
 )
 
-(defn spit_rooms
-  [filename rooms]
-  (spit filename "(defn mappu (list\n\n")
-  (loop [stuff rooms]
-    (if (not (empty? stuff))
-      (do
-        (spit filename (str (nth stuff 0) "\n\n") :append true)
-        (recur (drop 1 stuff))
-      )
-      (spit filename "))" :append true)
-    )
-  )
-)
-
 (defn begin 
   "Begins the game with a randomly generated map"
   [room_total]
-  (let [
-          filename "recent_map.clj" 
-          new_player (link_player_room
-                        (assoc plyr :rooms (nth (gen_map room_total) 0))
+  (let [new_player (link_player_room
+                      (assoc plyr :rooms (nth (gen_map room_total) 0))
                       4
                       )
         ]
-    (spit_rooms filename
-      (:rooms (gather_input new_player))
-    )
-   )
+    (gather_input new_player))
 ) 
-
-;(defn splash)
 
 (defn -main
   "Gets the program going! Without where would we be?"

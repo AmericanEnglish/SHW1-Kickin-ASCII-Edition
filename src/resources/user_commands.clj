@@ -277,6 +277,20 @@
   (hash-map :player player :rooms rooms)
 )
 
+(defn spit_rooms
+  [filename rooms]
+  (spit filename "(defn mappu (list\n\n")
+  (loop [stuff rooms]
+    (if (not (empty? stuff))
+      (do
+        (spit filename (str (nth stuff 0) "\n\n") :append true)
+        (recur (drop 1 stuff))
+      )
+      (spit filename "))" :append true)
+    )
+  )
+)
+
 (defn quit
   "Allows the user to end the game."
   [args player rooms]
@@ -287,6 +301,7 @@
     (if (= (clojure.string/lower-case answer) "y")
       (do
         (println "Goodbye!")
+        (spit_rooms "recent_map.clj" rooms)
         (System/exit 0)
       )
       (hash-map
