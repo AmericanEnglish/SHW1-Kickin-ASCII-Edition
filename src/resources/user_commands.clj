@@ -303,7 +303,7 @@
   (let [answer (read-line)]
     (if (= (clojure.string/lower-case answer) "y")
       (do
-        (println "Goodbye!")
+        (println (slurp "Outie.txt"))
         (spit_rooms "recent_map.clj" rooms)
         (System/exit 0)
       )
