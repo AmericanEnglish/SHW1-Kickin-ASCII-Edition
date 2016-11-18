@@ -355,7 +355,7 @@
               (println (str "You remove " args " from your backpack."))
               (hash-map
                 :player (assoc player :pack (remove_from_pack (:pack player) item))
-                :rooms (conj rooms new_room)
+                :rooms (conj (drop-item rooms current_room) new_room)
               )
             )
           )
