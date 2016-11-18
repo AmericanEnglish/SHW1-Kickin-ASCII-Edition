@@ -16,7 +16,7 @@
   "Displays help information about a specific command or just displays all commands"
   [command player rooms]
   (if (= command "")
-    (println "User commands: enter, see, unlock, look, get, pack, halp, quit. Type \"halp command\" for more information on the command.")
+    (println "User commands: enter, see, unlock, look, get, drop, pack, halp, quit. Type \"halp command\" for more information on the command.")
     (if-let [res (search_command_name command commands)]
       (println (:description res))
       (println "No such command found!") 
@@ -81,7 +81,10 @@
 
 (defn update_pack
   [current_pack old_item updated_item]
-  (conj (drop-item current_pack old_item) updated_item)
+  (if (> (:amount updated_item) 0)
+    (conj (drop-item current_pack old_item) updated_item)
+    (drop-item current_pack old_item)
+  )
 )
 
 (defn unlock_room
@@ -336,6 +339,35 @@
   (assoc room :inventory (add_to_pack (:inventory room) item))
 )
 
+(defn let_go
+  "Drops an item from the pack"
+  [args player rooms]
+  (if (empty? args)
+    (do
+      (println "You open up your pack and turn it upside down.\nIt is odd, but only air came out.\nYou must specify what you want to drop in this dimension.")
+      (hash-map :player player :rooms rooms)
+    )
+    (let [current_room (grab_room player rooms)]
+      (let [item (grab_item (:pack player) args)]
+        (if (not (empty? item))
+          (let [new_room (add_to_room current_room item)]
+            (do
+              (println (str "You remove " args " from your backpack."))
+              (hash-map
+                :player (assoc player :pack (remove_from_pack (:pack player) item))
+                :rooms (conj rooms new_room)
+              )
+            )
+          )
+          (do
+            (println (str "You search for " args " but cannot find it."))
+            (hash-map :player player :rooms rooms)
+          )
+        )
+      )
+    )
+  )
+)
 
 (defn obtain 
   "Grabs an item from a room"
@@ -358,7 +390,7 @@
             )
           )
           (do
-            (println (str "You search for " args " but cannot find it"))
+            (println (str "You search for " args " but cannot find it."))
             (hash-map :player player :rooms rooms)
           )
         )
@@ -409,6 +441,11 @@
               :description "User types \"get item\" to pick up items, mostly rocks..."
               :fn obtain
           )
+          (hash-map
+              :name "drop"
+              :description "User types \"drop item\" to drop the item into the current room."
+              :fn let_go
+          )
   )
 )
 
@@ -423,6 +460,7 @@
 
                         :verb "potential door murder(s)" 
                         :amount 25
+                        :break "Your Fireaxe has shattered into a million pieces.\nI hope you brought some keys..."
                       )
                     )
             )
