@@ -110,15 +110,23 @@
 
 (defn gen_items
   "Generates an item given all item template"
-  [all_templates]
-  (let [item (rand-nth all_templates)]
-    (list
-      (hash-map
-        :name (:name item)
-        :description (:description item)
-        :verb (:verb item)
-        :amount (:amount item)
-        :break (:break item)
+  [all_templates n_items]
+  (loop [chest (list) remaining n_items]
+    (let [item (rand-nth all_templates)]
+      (if (not (> remaining 0))
+        (recur 
+          (conj chest 
+            (hash-map
+              :name (:name item)
+              :description (:description item)
+              :verb (:verb item)
+              :amount (:amount item)
+              :break (:break item)
+            )
+          )
+          (- remaining 1)
+        )
+        chest
       )
     )
   )
