@@ -118,6 +118,7 @@
         :description (:description item)
         :verb (:verb item)
         :amount (:amount item)
+        :break (:break item)
       )
     )
   )

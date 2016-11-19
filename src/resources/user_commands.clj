@@ -83,7 +83,10 @@
   [current_pack old_item updated_item]
   (if (> (:amount updated_item) 0)
     (conj (drop-item current_pack old_item) updated_item)
-    (drop-item current_pack old_item)
+    (do
+      (println (str (:break updated_item)))
+      (drop-item current_pack old_item)
+    )
   )
 )
 
