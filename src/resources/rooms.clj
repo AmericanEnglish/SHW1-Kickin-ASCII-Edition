@@ -113,7 +113,7 @@
   [all_templates n_items]
   (loop [chest (list) remaining n_items]
     (let [item (rand-nth all_templates)]
-      (if (not (> remaining 0))
+      (if (> remaining 0)
         (recur 
           (conj chest 
             (hash-map
@@ -141,7 +141,7 @@
         :id room_id
         :name (str (:type sub) " " (:basename template))
         :description (:description sub)
-        :inventory (gen_items items)
+        :inventory (gen_items items (rand-int 6))
         :exits (vector)
         :locked (not (= room_id 1))
       )
