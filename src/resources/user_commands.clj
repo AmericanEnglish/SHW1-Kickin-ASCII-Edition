@@ -272,6 +272,7 @@
           (println (:name item))
           (println (:description item))
           (println (str "It has about " (:amount item) " " (:verb item) " remaining."))
+          (println (str "It is valued at " (:value item) " gold pieces."))
         )
         (println (str "You search for " args " but can't seem to find it"))
       )

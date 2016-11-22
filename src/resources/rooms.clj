@@ -121,6 +121,7 @@
               :description (:description item)
               :verb (:verb item)
               :amount (:amount item)
+              :value (:value item)
               :break (:break item)
             )
           )
