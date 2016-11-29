@@ -302,7 +302,7 @@
   [player]
   (loop [backpack (:pack player) sum 0]
     (if (not (empty? backpack))
-      (let [new_sum (+ sum (:value (nth backpack 0)))]
+      (let [new_sum (+ sum (* (:value (nth backpack 0))) (:amount (nth backpack 0)))]
         (recur (drop 1 backpack) new_sum)
       )
       (list sum)
