@@ -298,6 +298,18 @@
   )
 )
 
+(defn points 
+  [player]
+  (loop [backpack (:pack player) sum 0]
+    (if (not (empty? backpack))
+      (let [new_sum (+ sum (:value (nth backpack 0)))]
+        (recur (drop 1 backpack) new_sum)
+      )
+      (list sum)
+    )
+  )
+)
+
 (defn quit
   "Allows the user to end the game."
   [args player rooms]
@@ -308,6 +320,7 @@
     (if (= (clojure.string/lower-case answer) "y")
       (do
         (println (slurp "Outie.txt"))
+        (println (str "Score: " (points player)))
         (spit_rooms "recent_map.clj" rooms)
         (System/exit 0)
       )
@@ -464,6 +477,7 @@
 
                         :verb "potential door murder(s)" 
                         :amount 25
+                        :value 1
                         :break "Your Fireaxe has shattered into a million pieces.\nI hope you brought some keys..."
                       )
                     )
