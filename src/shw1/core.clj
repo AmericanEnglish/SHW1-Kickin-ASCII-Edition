@@ -40,7 +40,8 @@
 ;  (print "=CMD=> ")
 ;  (flush)
   (loop [player user]
-    (do 
+    (do
+      (halp "" commands player)
       (print "\n=CMD=> ")
       (flush)
       (let [input (read-line)]
@@ -71,6 +72,7 @@
   "Gets the program going! Without where would we be?"
   [& args]
   (println (slurp "house.txt"))
+  
   (begin 500)
 )
 ;   (let [filename "main_mappu.clj"]
